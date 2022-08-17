@@ -7,10 +7,11 @@ import User from './user/User';
 import NewUser from './user/NewUser';
 import NewAdmin from './admin/newAdmin';
 import Userpage from './user/Userpage';
+import GroundArea from './forms/GroundArea';
 
 function App() {
   return (
-    <div className="App">
+    <div>
      <Router>
       <Routes>
       <Route path='/' element={<Home />}/>
@@ -19,6 +20,7 @@ function App() {
         <Route path='user/newUser' element={<NewUser />}/>
         <Route path='NewAdmin' element={<NewAdmin />}/>
         <Route path='MainUser' element={<Userpage />}/>
+        <Route path='ground' element={<GroundArea />}/>
       </Routes>
      </Router>
     </div>
@@ -26,9 +28,9 @@ function App() {
 }
 
 function Home(){
-  return (<div>
-    <Link to='/admin'>Admin</Link><br /><br/>
-    <Link to='/user'>User</Link>
+  return (<div className='test'>
+    <button><Link to='/admin'>LOGIN AS ADMIN</Link></button><br /><br/>
+    <button><Link to='/user'>LOGIN AS USER</Link></button>
   </div>)
 }
 
