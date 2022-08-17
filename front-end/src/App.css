@@ -2,7 +2,7 @@
     position: fixed;
     top: 50%;
     left: 70%;
-    background-image: url(bg1.jpg);
+    /* background-image: url(bg1.jpg); */
   }
   
   button{
@@ -36,12 +36,13 @@
   button:hover {
     box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
   }
-/*   
+  
   body {
     padding:23% 22%;
     background-image: url(bg1.jpg);
     background-size: 100% 100%;
-    /* outline: 2px solid black; 
+    
     background-repeat: no-repeat;
     
-  } */
+  }
+  /* outline: 2px solid black; */
