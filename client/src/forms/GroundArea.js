@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 
-function GroundArea() {
+function GroundArea({ConsentLetter}) {
     const [ground,setGround] =useState(null)
     // const [NewGround,setNewGround] =useState(null)
     const [stateground,setstateGround] =useState(null)
     const [sanctionground,setSanctionGround] =useState(null)
 
   return (
-    <div><br/><br/><br/>groundArea<br/>
+    <div >
+        <br/><br/><br/>groundArea<br/>
         <label>
             1. Is ground present<br />
            yes <input name='ground' 
@@ -82,7 +83,15 @@ function GroundArea() {
             <label>Document<input type='text' /></label><br />
             </div>
         }
-        <button>next</button>
+        <button onClick={()=>ConsentLetter({
+             "ground_present" : true,
+             "ground_needed" : true,
+              "ground_shape" : "Rectangle",
+              "ground_height" : 9800,
+              "ground_width" : 1200,
+              "needed_improvement_info" : "String",
+              "approx_price" : 6969
+        })}>next</button>
     </div>
   )
 }

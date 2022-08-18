@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './allforms.css'
-const switchers = [...document.querySelectorAll('.switcher')]
+import './try'
+import Equipment from './Equipment'
+import GroundArea from './GroundArea'
 
-switchers.forEach(item => {
-	item.addEventListener('click', function() {
-		switchers.forEach(item => item.parentElement.classList.remove('is-active'))
-		this.parentElement.classList.add('is-active')
-	})
-})
+import PlayField from './PlayField'
 
 
 function AllForms() {
+  const [divi,setdivi] = useState()
+
+  const ConsentLetter = ()=>{
+      setdivi('consent')
+  }
   return (
     <div class="forms-section">
     <h1 class="section-title"></h1>
@@ -22,7 +24,7 @@ function AllForms() {
         </button>
         <form class="form form-login">
           <fieldset>
-            <div class="input-block">
+            {/* <div class="input-block">
               Is ground present ?  
               <br />
               <input type="radio" name="choice-radio" /> Yes
@@ -32,7 +34,8 @@ function AllForms() {
             <div class="input-block">
               Need a new Ground ?   
               <input type="radio" name="choice-radio" /> Yes<input type="radio" name="choice-radio"/> No
-            </div>
+            </div> */}
+            <GroundArea ConsentLetter={ConsentLetter} />
           </fieldset>
           <button type="submit" class="btn-login">submit</button>
         </form>
@@ -44,7 +47,7 @@ function AllForms() {
         </button>
         <form class="form form-signup">
           <fieldset>
-            <div class="input-block">
+            {/* <div class="input-block">
               <label >Equipment for sport</label>
               <input  type="text" required/>
             </div>
@@ -63,7 +66,8 @@ function AllForms() {
               <input type="number" required/>
               <label for="myfile">Required Document:</label>
               <input type="file" id="RD" name="myfile" /><br /><br />
-            </div>
+            </div> */}
+            <Equipment ConsentLetter={ConsentLetter} />
           </fieldset>
           <button type="submit" class="btn-signup">Continue</button>
         </form>
@@ -76,7 +80,7 @@ function AllForms() {
         </button>
         <form class="form form-signup">
           <fieldset>
-            <div class="input-block">
+            {/* <div class="input-block">
               <label >Playfield/Court required for  </label>
               <input id="Playfield" type="text" required/>
             </div>
@@ -88,7 +92,8 @@ function AllForms() {
               
               <label>Approx cost : </label>
               <input type="number" required/>
-            </div>
+            </div> */}
+            <PlayField ConsentLetter={ConsentLetter} />
           </fieldset>
           <button type="submit" class="btn-signup">Continue</button>
         </form>
