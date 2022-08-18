@@ -8,6 +8,8 @@ import NewUser from './user/NewUser';
 import NewAdmin from './admin/newAdmin';
 import Userpage from './user/Userpage';
 import GroundArea from './forms/GroundArea';
+import AllForms from './forms/AllForms';
+import FormsAll from './forms/FormsAll';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path='NewAdmin' element={<NewAdmin />}/>
         <Route path='MainUser' element={<Userpage />}/>
         <Route path='ground' element={<GroundArea />}/>
+        <Route path='allForm' element={<AllForms/>}/>
+        <Route path='formall' element={<FormsAll />} />
       </Routes>
      </Router>
     </div>
@@ -28,9 +32,11 @@ function App() {
 }
 
 function Home(){
-  return (<div className='test'>
+  return (<div className='home'>
+    <div className='test'>
     <button><Link to='/admin'>LOGIN AS ADMIN</Link></button><br /><br/>
     <button><Link to='/user'>LOGIN AS USER</Link></button>
+  </div>
   </div>)
 }
 

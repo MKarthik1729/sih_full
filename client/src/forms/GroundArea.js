@@ -82,7 +82,7 @@ function GroundArea() {
             <label>Document<input type='text' /></label><br />
             </div>
         }
-
+        <button>next</button>
     </div>
   )
 }
