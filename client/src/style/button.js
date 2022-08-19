@@ -45,6 +45,7 @@ export const StyledDiv = styled.div`
 align-content: center;
  background-repeat: no-repeat;
     background-size:100% 100%;
+    background-position: center;
     align-content: center;
     justify-content: center;
     background-position: center no-repeat;

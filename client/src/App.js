@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes ,Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Routes ,Route, Link, useNavigate} from 'react-router-dom'
 
 // import {StyledButton} from './style/button.styles'
 
@@ -8,9 +8,10 @@ import NewUser from './user/NewUser';
 import NewAdmin from './admin/newAdmin';
 import Userpage from './user/Userpage';
 import GroundArea from './forms/GroundArea';
-import AllForms from './forms/AllForms';
 import FormsAll from './forms/FormsAll';
 import { StyledDiv,StyledButton, PositionButton } from './style/button';
+import UserInterface from './user/UserInterface';
+import AdminInterface from './admin/AdminInterface';
 
 function App() {
   return (
@@ -24,8 +25,10 @@ function App() {
         <Route path='NewAdmin' element={<NewAdmin />}/>
         <Route path='MainUser' element={<Userpage />}/>
         <Route path='ground' element={<GroundArea />}/>
-        <Route path='allForm' element={<AllForms/>}/>
         <Route path='formall' element={<FormsAll />} />
+        <Route path='userInterface' element={<UserInterface/>}/>
+        <Route path='adminInterface' element={<AdminInterface />}/>
+        <Route path='*' element={<ErrorPage />} />
       </Routes>
      </Router>
     </div>
@@ -33,13 +36,23 @@ function App() {
 }
 
 function Home(){
+  const navigate = useNavigate()
   return (<StyledDiv>
     <PositionButton >
-    <StyledButton><Link to='/admin'>LOGIN AS ADMIN</Link></StyledButton><br /><br/>
-    <StyledButton><Link to='/user'>LOGIN AS USER</Link></StyledButton>
+    <StyledButton onClick={()=>navigate('/admin')}>LOGIN AS ADMIN</StyledButton><br /><br/>
+    <StyledButton onClick={()=>navigate('/user')}>LOGIN AS USER</StyledButton>
   </PositionButton>
   </StyledDiv>
   )
 }
 
 export default App;
+
+function ErrorPage() {
+  return(
+    <>
+    <h1>Error 404</h1>
+    <Link to='/'>Click to redirect to home</Link>
+    </>
+  )
+}

@@ -39,7 +39,7 @@ height: 100%;
 `
 export const StyledInput = styled.input`
 width:70%;
-padding: 10px;
+padding: 2%;
 margin: 1% 10%;
 border: 1px solid #111;
 border-radius: 5px;

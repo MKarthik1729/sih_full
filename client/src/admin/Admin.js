@@ -61,7 +61,6 @@ function Admin() {
             <ImgDiv>
             </ImgDiv>
         </LoginDiv>
-
     </StyledDiv>
   )
 }
