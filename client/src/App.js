@@ -1,6 +1,6 @@
-import './App.css';
 import {BrowserRouter as Router, Routes ,Route, Link} from 'react-router-dom'
 
+// import {StyledButton} from './style/button.styles'
 
 import Admin from './admin/Admin';
 import User from './user/User';
@@ -10,6 +10,7 @@ import Userpage from './user/Userpage';
 import GroundArea from './forms/GroundArea';
 import AllForms from './forms/AllForms';
 import FormsAll from './forms/FormsAll';
+import { StyledDiv,StyledButton, PositionButton } from './style/button';
 
 function App() {
   return (
@@ -32,12 +33,13 @@ function App() {
 }
 
 function Home(){
-  return (<div className='home'>
-    <div className='test'>
-    <button><Link to='/admin'>LOGIN AS ADMIN</Link></button><br /><br/>
-    <button><Link to='/user'>LOGIN AS USER</Link></button>
-  </div>
-  </div>)
+  return (<StyledDiv>
+    <PositionButton >
+    <StyledButton><Link to='/admin'>LOGIN AS ADMIN</Link></StyledButton><br /><br/>
+    <StyledButton><Link to='/user'>LOGIN AS USER</Link></StyledButton>
+  </PositionButton>
+  </StyledDiv>
+  )
 }
 
 export default App;

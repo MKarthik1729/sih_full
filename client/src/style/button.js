@@ -1,12 +1,12 @@
-.test{
+import styled from "styled-components";
+
+export const PositionButton = styled.div`
     position: fixed;
     top: 50%;
     left: 70%;
+`
 
-    /* background-image: url(bg1.jpg); */
-  }
-  
-  button{
+export const StyledButton = styled.button`
     align-items: center;
     background-color: #fff;
     border-radius: 12px;
@@ -32,23 +32,34 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+
+&:hover {
+    box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
   }
-  
-  
-/* body {
-
-    margin: 0 auto;
-    background-image: url(bg1.jpg);
-    background-size: cover;
+`
+export const StyledDiv = styled.div`
+ background-attachment: fixed;
+ background: url(https://wallpaperaccess.com/full/910880.jpg) fixed;
+ width: 100%;
+ height: 100%;
+align-content: center;
+ background-repeat: no-repeat;
+    background-size:100% 100%;
+    align-content: center;
+    justify-content: center;
     background-position: center no-repeat;
-
-    background-repeat: no-repeat;
-  } */
-  /* outline: 2px solid black; */
-      /* padding:23%; */
-    /* align-items: center;
-    align-content: center; */
-    /* position:absolute; */
-    /* width: 100%;
-    height: 100%; */
-        /* background-position: 50% 50%; */
+    margin: 0 ;
+    position: absolute; 
+`
+export const SubmitButton = styled.button`
+padding: 5px 10%;
+float: left;
+background-color: blueviolet;
+border: 1px solid blueviolet;
+border-radius: 20px;
+margin-left: 20%;
+margin-top: 5%;
+&:hover{
+color: antiquewhite;
+}
+`

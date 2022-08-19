@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom'
 import Userpage from '../user/Userpage'
 import {AdminURL} from '../values'
 
+import {AiOutlineUser} from 'react-icons/ai'
+import {  StyledDiv, SubmitButton } from '../style/button'
+import { ForgotP, FormDiv, ImgDiv, LoginDiv, StyledInput } from '../style/login'
+
 function Admin() {
     const [id,setId] = useState()
     const [Pass,setPass] = useState()
@@ -28,26 +32,37 @@ function Admin() {
         // history.push('/NewAdmin')
     }
   return (
+    <StyledDiv>
+    <LoginDiv>
+        <FormDiv>
+            {/* <label> */}
+            {/* <FaUser size='20' /> */}
+            <AiOutlineUser size='20%' />
     <div>
-        <h1>Admin data</h1>
+        <p>Admin</p>
         {Url && <form>
             <label>
-                Admin email : 
-                <input type='text' onChange={(e)=>setId(e.target.value)}/>
+                <StyledInput placeholder='email' type='text' onChange={(e)=>setId(e.target.value)}/>
             </label><br /><br />
             <label>
-                Password : 
-                <input type='Password' onChange={(e)=>setPass(e.target.value)} />
+                <StyledInput placeholder='Password'  type='Password' onChange={(e)=>setPass(e.target.value)} />
             </label>  
-            <p>forget Password</p>         
+     
 
-                <Link to="/MainUser" onClick={HandleSubmit}>submit</Link>
+                <SubmitButton onClick={HandleSubmit}>Login</SubmitButton>
+                <ForgotP>forget Password</ForgotP>   
         </form>}
         {
             !Url && <Userpage hello={Url}/>
         }
         
     </div>
+    </FormDiv>
+            <ImgDiv>
+            </ImgDiv>
+        </LoginDiv>
+
+    </StyledDiv>
   )
 }
 
