@@ -41,7 +41,7 @@ export const StyledButton = styled.button`
 `
 export const StyledDiv = styled.div`
  background-attachment: fixed;
- background: url(https://wallpaperaccess.com/full/910880.jpg) fixed;
+ background: url(https://i.pinimg.com/736x/e9/d9/10/e9d91013509e922b3d1ecb3a037fbb4f.jpg) fixed;
  width: 100%;
  height: 100%;
 align-content: center;
