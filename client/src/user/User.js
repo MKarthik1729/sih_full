@@ -9,8 +9,9 @@ import {AiOutlineUser} from 'react-icons/ai'
 function User() {
     const [id,setId] = useState()
     const [Pass,setPass] = useState()
-        const plac = `Email Address`
-    const HandleSubmit =async (e)=>{
+    
+    const plac = `Email Address`
+    const HandleSubmit = async (e)=>{
         e.preventDefault()
         
         console.log(id,Pass)

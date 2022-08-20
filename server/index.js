@@ -3,6 +3,7 @@ const BodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 
 const Admin = require("./src/admin/admin");
 const User = require("./src/user/user");

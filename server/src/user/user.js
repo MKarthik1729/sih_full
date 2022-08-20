@@ -15,7 +15,7 @@ Router.post('/',(req,res)=>{
     // NewAdmin.create(req.body)
     // console.log(req.body)
 
-    NewUser.findOne({email:req.body.email},(e,user)=>{
+    NewUser.findOne({email:req.body.email}, (e,user)=>{
         if(user==null){
             res.send({
                 error:'error'
@@ -26,6 +26,8 @@ Router.post('/',(req,res)=>{
             res.send({
                 id:user.id
             })
+
+            console.log("Sending Email")
             return;
         }
         res.send({
