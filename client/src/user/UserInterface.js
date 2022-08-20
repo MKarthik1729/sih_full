@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {AiOutlineSetting,AiOutlineLogout,AiOutlinePlusCircle} from 'react-icons/ai'
 import { BottomPart, MainUser, RightBottom, SideBarPart, TopRight, TotDiv, WhitePara } from '../style/interface'
 
 import {BiUserCircle} from 'react-icons/bi'
+import UserContext from '../Context/UserContext'
 
 function UserInterface() {
+  const {UserId}  = useContext(UserContext)
   return (
     <TotDiv>
         <TopRight>
@@ -30,7 +32,7 @@ function UserInterface() {
         </div>
         <h3>middle</h3>
         </MainUser>
-        <RightBottom>
+        <RightBottom onClick={()=>console.log(UserId)}>
             <AiOutlinePlusCircle size='60'/>
             <p>New Application</p>
         </RightBottom>

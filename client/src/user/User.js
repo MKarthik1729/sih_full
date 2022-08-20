@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {  StyledDiv, SubmitButton } from '../style/button'
 import { ForgotP, FormDiv, ImgDiv, LoginDiv, StyledInput } from '../style/login'
 import { front_URL} from '../values'
 // import {FaUser} from 'react-icons/fa';
 import {AiOutlineUser} from 'react-icons/ai'
+import  UserContext  from '../Context/UserContext'
 
 function User() {
+    const user_id = useContext(UserContext)
+    const navigate = useNavigate()
     const [id,setId] = useState()
     const [Pass,setPass] = useState()
     
@@ -27,6 +30,9 @@ function User() {
         })
         const fin = await result.json()
         console.log(fin)
+        user_id.UserSetter(fin.id)
+        // console.log(user_id.item)
+        navigate('/userInterface')
         
     }
   return (
