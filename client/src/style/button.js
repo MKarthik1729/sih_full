@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+const buttonColor = '#fff'
+
 export const PositionButton = styled.div`
     position: fixed;
     top: 50%;
@@ -8,7 +10,7 @@ export const PositionButton = styled.div`
 
 export const StyledButton = styled.button`
     align-items: center;
-    background-color: #fff;
+    background-color: ${buttonColor};
     border-radius: 12px;
     box-shadow: transparent 0 0 0 3px,rgba(18, 18, 18, .1) 0 6px 20px;
     box-sizing: border-box;

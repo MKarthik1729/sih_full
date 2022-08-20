@@ -12,9 +12,11 @@ import FormsAll from './forms/FormsAll';
 import { StyledDiv,StyledButton, PositionButton } from './style/button';
 import UserInterface from './user/UserInterface';
 import AdminInterface from './admin/AdminInterface';
+import {UserfnContext} from './Context/UserContext';
 
 function App() {
   return (
+    <UserfnContext>
     <div>
      <Router>
       <Routes>
@@ -32,6 +34,8 @@ function App() {
       </Routes>
      </Router>
     </div>
+    </UserfnContext>
+
   );
 }
 
