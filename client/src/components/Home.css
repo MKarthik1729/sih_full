@@ -6,6 +6,10 @@ body{
 
 }
 
+.main-text {
+    font-size: 20px;
+}
+
 .heading{
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
@@ -29,7 +33,7 @@ body{
 
 .btn-home button{
 
-    width:100px;
+    width:200px;
     background-color: #fff;
     border: 1px solid #000;
     border-radius: 5px;

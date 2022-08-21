@@ -1,0 +1,50 @@
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tabs button {
+    font-size: 18px;
+    background-color: lightgray;
+    border: none;
+    color: #888888;
+    cursor: pointer;
+    padding: 25px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.5s ease-out;
+}
+
+
+.tabs button:disabled {
+    background: white;
+    color: black;
+}
+
+.title {
+    color: black;
+    font-size: medium;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.content {
+    padding: 50px 80px;
+    background-color: white;
+    font-weight: 300;
+    line-height: 30px;
+    font-size: 16px;
+    text-align: justify;
+}
+
+.content 
+button {
+    font-size: 18px;
+}
+
+button{ 
+    color: blue;
+    border : 2px;
+}

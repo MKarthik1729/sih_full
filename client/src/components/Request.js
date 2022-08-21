@@ -1,24 +1,24 @@
-import React from 'react'
-
-import './fonts/icomoon/style.css'
-import './css/owl.carousel.min.css'
-import './css/animate.css'
-import './css/bootstrap.min.css'
-import './css/style.css'
+import React from "react";
+import { Link } from "react-router-dom";
+import Tabs from "./Tabs";
 
 function Request() {
-  return (
-    <div>
-      <h1>Request page</h1>
+	return (
+		<div>
+			<Link to="/" style={{
+        textDecoration: "none"
+      }}>
+				<h1 className="heading">Khelo India</h1>
+			</Link>
 
-      <div className="container">
-          
-      </div>
-
-    </div>
-
-    
-  )
+			<div
+				style={{
+					margin: 30,
+				}}>
+				<Tabs />
+			</div>
+		</div>
+	);
 }
 
-export default Request
+export default Request;

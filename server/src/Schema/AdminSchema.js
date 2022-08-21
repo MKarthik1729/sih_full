@@ -3,7 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let admin = new Schema({
-  name: {
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
     type: String,
     required: true
   },
@@ -11,21 +15,25 @@ let admin = new Schema({
     type: String,
     required: true
   },
-  role : {
-    type: String,
-    required: true
-  },
   email:{
     type: String,
     required: true
   },
-  mobile:{
-    type: Number,
-    required: true
-  },
-  password:{
+  gender:{
     type: String,
     required: true
+  },
+  school_address : {
+    type: String,
+    required: true
+  },
+  city : {
+    type: String,
+    required: true
+  },
+  ph_no : {
+    type : String, 
+    required : true
   }
 });
 
