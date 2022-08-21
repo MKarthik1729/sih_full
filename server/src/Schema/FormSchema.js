@@ -9,8 +9,8 @@ const getGroundSchema = mongoose.Schema({
 	needed_improvement_info: String,
     approx_price : Number,
 	status : {
-		type : Boolean, 
-		default : false
+		type : String, 
+		default : "Pending"
 	}
 });
 
@@ -20,8 +20,8 @@ const getEquipmentSchema = mongoose.Schema({
     number_of_people : Number,
     approx_price : Number,
 	status : {
-		type : Boolean, 
-		default : false
+		type : String, 
+		default : "Pending"
 	}
 })
 
@@ -32,8 +32,8 @@ const getPlayfieldSchema = mongoose.Schema({
     consent_letter : Boolean,
     approx_price : Number,
 	status : {
-		type : Boolean, 
-		default : false
+		type : String, 
+		default : "Pending"
 	}
 })
 
@@ -41,18 +41,25 @@ const finalFormschema = mongoose.Schema({
 	useremail: {
 		type: String,
 	},
-	get_ground: {
-		type: getGroundSchema,
-        default : {}
-	},
-    get_equipment: {
-		type: getEquipmentSchema,
-        default : {}
-	},
-    get_playfield: {
-		type: getPlayfieldSchema,
-        default : {}
-	},
+	// get_ground: {
+	// 	type: getGroundSchema,
+    //     default : {},
+	// 	unique : true,
+	// },
+    // get_equipment: {
+	// 	type: getEquipmentSchema,
+    //     default : {},
+	// 	unique : true,
+	// },
+    // get_playfield: {
+	// 	type: getPlayfieldSchema,
+    //     default : {},
+	// 	unique : true,
+	// },
+	request_type : {
+		type : String,
+		unique : true
+	}
 });
 
 

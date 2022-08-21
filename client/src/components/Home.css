@@ -1,0 +1,47 @@
+body{
+    background-image: url(https://i.pinimg.com/736x/e9/d9/10/e9d91013509e922b3d1ecb3a037fbb4f.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+.heading{
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+    font-weight: 1000;
+    font-size: 120px;
+    background-image: url(https://bestanimations.com/media/india/219910800india-flag-waving-animated-gif-8.gif);
+    background-repeat: repeat;
+    background-size:auto;
+    -webkit-background-clip: text;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+
+
+.btn-home button{
+
+    width:100px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+}
+
+.btn-home button:hover{
+    background-color: #000;
+    color: yellow;
+}
