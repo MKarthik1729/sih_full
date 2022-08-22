@@ -1,15 +1,176 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 
 import "./tabs.css";
 import "./form.css";
-
-const submitHandler = () => {};
+import { store } from "../App";
+import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 const Tabs = () => {
+	// eslint-disable-next-line no-unused-vars
+	const [user, setUser] = useContext(store);
+
+	const navigate = useNavigate();
+	// const [req1, setReq1] = useState({
+	// 	groundArea: "",
+	// 	purpose: "",
+	// 	requirements: "",
+	// });
+
+	// const [req2, setReq2] = useState({
+	// 	sportsEquipment: "",
+	// 	numPeople: "",
+	// 	details: "",
+	// });
+
+	// const [req3, setReq3] = useState({
+	// 	additionalArea: "",
+	// 	agedPeople: "",
+	// 	additionalDetails: "",
+	// });
+
+	// const reqOneGroundAreaHandler = (e) => {
+	// 	setReq1((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			groundArea: e.target.value,
+	// 		};
+	// 	});
+	// };
+
+	// const reqOnePurposeHandler = (e) => {
+	// 	setReq1((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 		    purpose : e.target.value,
+	// 		};
+	// 	});
+	// };
+
+	// const reqOneRequirementsHandler = (e) => {
+	// 	setReq1((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			requirements: e.target.value,
+	// 		};
+	// 	});
+	// };
+
+	// const reqTwoSportsEquipmentHandler = (e) => {
+	// 	setReq2((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			sportsEquipment: e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	// const reqTwoNumPeopleHandler = (e) => {
+	// 	setReq2((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			numPeople: e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	// const reqTwoDetailsHandler = (e) => {
+	// 	setReq2((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			details: e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	// const reqThreeAdditionalAreaHandler = (e) => {
+	// 	setReq3((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			additionalArea : e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	// const reqThreeAgedPeopleHandler = (e) => {
+	// 	setReq3((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			agedPeople : e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	// const reqThreeAdditionalDetailsHandler = (e) => {
+	// 	setReq3((prevReq) => {
+	// 		return {
+	// 			...prevReq,
+	// 			additionalDetails: e.target.value,
+	// 		}
+	// 	})
+	// }
+
+	const reqOneInputOne = useRef("");
+	const reqOneInputTwo = useRef("");
+	const reqOneInputThree = useRef("");
+
+	const reqTwoInputOne = useRef("");
+	const reqTwoInputTwo = useRef("");
+	const reqTwoInputThree = useRef("");
+
+	const reqThreeInputOne = useRef("");
+	const reqThreeInputTwo = useRef("");
+	const reqThreeInputThree = useRef("");
+
+	console.log(user, Object.keys(user).length);
+
+	const submitHandler1 = async (event) => {
+		event.preventDefault();
+
+		const temp = {
+			request_type : "get_grounds",
+			useremail: user.useremail,
+			ground_area: reqOneInputOne.current.value,
+			purpose: reqOneInputTwo.current.value,
+			addn_info: reqOneInputThree.current.value,
+		};
+
+		console.log(temp);
+
+		const res = await Axios.post(
+			"http://localhost:5000/requests/newRequest",
+			{
+				request_type : "get_grounds",
+				useremail: user.useremail,
+				ground_area: reqOneInputOne.current.value,
+				purpose: reqOneInputTwo.current.value,
+				addn_info: reqOneInputThree.current.value,
+			}
+		);
+
+		const data = res.data;
+		console.log(data);
+		navigate('/user/login')
+	};
+
+	const submitHandler2 = (event) => {
+		event.preventDefault();
+	};
+
+	const submitHandler3 = (event) => {
+		event.preventDefault();
+	};
+
+	useEffect(() => {
+		if (Object.keys(user).length === 0) {
+			navigate("/user/login");
+		}
+	}, []);
+
 	const [currentTab, setCurrentTab] = useState("1");
 
 	const SchoolDetails = (
-		<div class = "body"> 
+		<div class="body">
 			<div class="row row-space">
 				<div class="col-2">
 					<div class="input-group">
@@ -18,6 +179,8 @@ const Tabs = () => {
 							class="input--style-4"
 							type="text"
 							name="firstname"
+							value={user.firstname}
+							disabled
 						/>
 					</div>
 				</div>
@@ -28,6 +191,8 @@ const Tabs = () => {
 							class="input--style-4"
 							type="text"
 							name="lastname"
+							value={user.lastname}
+							disabled
 						/>
 					</div>
 				</div>
@@ -35,11 +200,13 @@ const Tabs = () => {
 			<div class="row row-space">
 				<div class="col-2">
 					<div class="input-group">
-						<label class="label">Email ID</label>
+						<label class="label">Email Address</label>
 						<input
 							class="input--style-4"
 							type="email"
 							name="email"
+							value={user.useremail}
+							disabled
 						/>
 					</div>
 				</div>
@@ -50,6 +217,8 @@ const Tabs = () => {
 							class="input--style-4"
 							type="text"
 							name="designation"
+							value={user.designation}
+							disabled
 						/>
 					</div>
 				</div>
@@ -62,27 +231,23 @@ const Tabs = () => {
 							class="input--style-4"
 							type="tel"
 							name="phonenumber"
+							value={user.phone}
+							disabled
 						/>
 					</div>
 				</div>
 				<div class="col-2">
 					<div class="input-group">
 						<label class="label">City</label>
-						<input class="input--style-4" type="text" name="city" />
+						<input
+							class="input--style-4"
+							type="text"
+							name="city"
+							value={user.city}
+							disabled
+						/>
 					</div>
 				</div>
-			</div>
-			<div class="row row-space">
-				{/* <div class="col">
-			<div class="input-group">
-				<label class="label">Password</label>
-				<input
-					class="input--style-4"
-					type="password"
-					name="password"
-				/>
-			</div>
-		</div> */}
 			</div>
 			<div>
 				<div>
@@ -92,6 +257,8 @@ const Tabs = () => {
 							class="input--style-4"
 							type="text"
 							name="address"
+							value={user.address}
+							disabled
 						/>
 					</div>
 				</div>
@@ -104,9 +271,8 @@ const Tabs = () => {
 			id: 1,
 			tabTitle: "Request for Grounds",
 			content: (
-				
-				<form autoComplete="off">
-					<div class = "body">
+				<form autoComplete="off" onSubmit={submitHandler1}>
+					<div class="body">
 						<p>Request Details : -</p>
 
 						<div class="row row-space">
@@ -119,6 +285,9 @@ const Tabs = () => {
 										class="input--style-4"
 										type="text"
 										name="required-ground-area"
+										// onChange={reqOneGroundAreaHandler}
+										// value={groundArea}
+										ref={reqOneInputOne}
 										required
 									/>
 								</div>
@@ -132,7 +301,10 @@ const Tabs = () => {
 									<input
 										class="input--style-4"
 										type="text"
-										name="purpose" 
+										name="purpose"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqOneInputTwo}
 										required
 									/>
 								</div>
@@ -149,15 +321,18 @@ const Tabs = () => {
 									class="input--style-4"
 									type="text"
 									name="addn-info"
+									// onChange={reqOneRequirementsHandler}
+									// value={requirements}
+									ref={reqOneInputThree}
 									required
 								/>
 							</div>
 						</div>
-					<br />
-					<hr />
-					<br />
+						<br />
+						<hr />
+						<br />
 
-					<p> School Details : - </p>
+						<p> School Details : - </p>
 					</div>
 
 					{SchoolDetails}
@@ -175,8 +350,8 @@ const Tabs = () => {
 			id: 2,
 			tabTitle: "Request for Sports Equipment",
 			content: (
-				<form autoComplete="off">
-					<div class = "body">
+				<form autoComplete="off" onSubmit={submitHandler2}>
+					<div class="body">
 						<p>Request Details : -</p>
 
 						<div class="row row-space">
@@ -189,6 +364,9 @@ const Tabs = () => {
 										class="input--style-4"
 										type="text"
 										name="required-ground-area"
+										// onChange={reqTwoSportsEquipmentHandler}
+										// value={sportsEquipment}
+										ref={reqTwoInputOne}
 									/>
 								</div>
 							</div>
@@ -203,6 +381,9 @@ const Tabs = () => {
 										class="input--style-4"
 										type="text"
 										name="purpose"
+										// onChange={reqTwoNumPeopleHandler}
+										// value={numPeople}
+										ref={reqTwoInputTwo}
 									/>
 								</div>
 							</div>
@@ -218,14 +399,17 @@ const Tabs = () => {
 									class="input--style-4"
 									type="text"
 									name="addn-info"
+									// onChange={reqTwoDetailsHandler}
+									// value={details}
+									ref={reqTwoInputThree}
 								/>
 							</div>
 						</div>
-					<br />
-					<hr />
-					<br />
-					<p> School Details : - </p>
-					{SchoolDetails}
+						<br />
+						<hr />
+						<br />
+						<p> School Details : - </p>
+						{SchoolDetails}
 					</div>
 
 					<div class="p-t-15">
@@ -243,8 +427,8 @@ const Tabs = () => {
 			tabTitle: "Request for play areas",
 			title: "Title 3",
 			content: (
-				<form autoComplete="off">
-					<div class = "body">
+				<form autoComplete="off" onSubmit={submitHandler3}>
+					<div class="body">
 						<p>Request Details : -</p>
 
 						<div class="row row-space">
@@ -257,6 +441,9 @@ const Tabs = () => {
 										class="input--style-4"
 										type="text"
 										name="required-ground-area"
+										// onChange = {reqThreeAdditionalAreaHandler}
+										// value={additionalArea}
+										ref={reqThreeInputOne}
 									/>
 								</div>
 							</div>
@@ -271,6 +458,9 @@ const Tabs = () => {
 										class="input--style-4"
 										type="text"
 										name="purpose"
+										// onChange = {reqThreeAgedPeopleHandler}
+										// value={agedPeople}
+										ref={reqThreeInputTwo}
 									/>
 								</div>
 							</div>
@@ -286,22 +476,22 @@ const Tabs = () => {
 									class="input--style-4"
 									type="text"
 									name="addn-info"
+									// onChange={reqThreeAdditionalDetailsHandler}
+									// value={additionalDetails}
+									ref={reqThreeInputThree}
 								/>
 							</div>
 						</div>
-					<br />
-					<hr />
-					<br />
+						<br />
+						<hr />
+						<br />
 
-					<p> School Details : - </p>
-					{SchoolDetails}
+						<p> School Details : - </p>
+						{SchoolDetails}
 					</div>
 
 					<div class="p-t-15">
-						<button
-							type="submit">
-							Submit
-						</button>
+						<button type="submit">Submit</button>
 					</div>
 				</form>
 			),

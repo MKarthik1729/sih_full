@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Tabs from "./Tabs";
 
+
 function Request() {
 	return (
 		<div>
@@ -15,7 +16,7 @@ function Request() {
 				style={{
 					margin: 30,
 				}}>
-				<Tabs />
+				<Tabs  />
 			</div>
 		</div>
 	);

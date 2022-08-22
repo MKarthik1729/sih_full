@@ -1,39 +1,31 @@
 const express = require('express')
-const NewUser = require('../Schema/UserSchema')
+const User = require('../Schema/UserSchema')
 
 const Router = express.Router()
 
-Router.post('/NewUser',(req,res)=>{
-    NewUser.create(req.body)
-    console.log(req.body)
-    res.send({
-        name : "karthik"
-    })
-})
-
-Router.post('/',(req,res)=>{
+Router.post('/login', async (req,res)=>{
     // NewAdmin.create(req.body)
-    // console.log(req.body)
+    
+    console.log(req.body)
+    console.log(req.body);
+	// NewAdmin.create(req.body)
+	try {
+		const result = await User.findOne({
+			username: req.body.username,
+			password: req.body.password,
+		});
+		//res.send({ result, status: "success" });
+		if(result){
+			res.json(result);
+		}
+		else{
+			res.json(null);
+		}
 
-    NewUser.findOne({email:req.body.email}, (e,user)=>{
-        if(user==null){
-            res.send({
-                error:'error'
-            })
-            return ;
-        }
-        if(req.body.pass === user.password ){
-            res.send({
-                id:user.id
-            })
-
-            console.log("Sending Email")
-            return;
-        }
-        res.send({
-            error:'error'
-        })
-    })
+	} catch (e) {
+		res.json(null);
+		console.log(e);
+	}
 })
 
 module.exports = Router

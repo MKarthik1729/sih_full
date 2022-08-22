@@ -27,16 +27,15 @@ Router.post("/newrequest", async (req, res) => {
 		token = await get_ground.find({ useremail: req.body.useremail });
 
 		if (token.length > 0) {
+			console.log("Request already found");
 			console.log("Token is: " + token[0]._id.toString());
 			res.send({ token: token });
 		} else {
 			const r = new get_ground({
 				useremail: req.body.useremail,
-				ground_shape: req.body.ground_shape,
-				ground_height: req.body.ground_height,
-				ground_width: req.body.ground_width,
-				needed_improvement_info: req.body.needed_improvement_info,
-				approx_price: req.body.approx_price,
+				ground_area: req.body.ground_area,
+				purpose : req.body.purpose,
+				addn_info: req.body.addn_info,
 			});
 
 			await r.save();

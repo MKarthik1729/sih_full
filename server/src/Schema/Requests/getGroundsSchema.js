@@ -5,13 +5,15 @@ const getGroundSchema = mongoose.Schema({
         type : String,
         unique : true
     },
-	ground_shape: {
-		type: String,
+	ground_area : {
+		type : String,
+		required : true
 	},
-	ground_height: Number,
-	ground_width: Number,
-	needed_improvement_info: String,
-    approx_price : Number,
+	purpose : {
+		type : String,
+		required : true
+	},
+	addn_info: String,
 	status : {
 		type : String, 
 		default : "Pending"

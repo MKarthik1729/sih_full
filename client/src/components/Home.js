@@ -6,8 +6,8 @@ function Home() {
 	return (
 		<div>
 			<h1 className="heading">Khelo India</h1>
-			<div classname = "text-container">
-			<p classname = "main-text">
+			<div className = "text-container">
+			<p className = "main-text">
 				Lorem Ipsum is simply dummy text of the printing and typesetting
 				industry. Lorem Ipsum has been the industry's standard dummy
 				text ever since the 1500s, when an unknown printer took a galley
@@ -21,10 +21,10 @@ function Home() {
 			</p>
 			</div>
 			<div className="btn-home">
-				<Link to="/admin">
+				<Link to="/admin/login">
 					<button>Enter as Admin</button>
 				</Link>
-				<Link to="/user/request">
+				<Link to="/user/login">
 					<button>Enter as User</button>
 				</Link>
 			</div>
