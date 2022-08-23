@@ -11,6 +11,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import UserInterface from './components/UserInterface';
 import ApplicationStatus from "./components/ApplicationStatus"; 	
 import Signup from "./components/Signup";
+import ApplicationStatusAll from "./components/ApplicationStatusAll";
 
 
 export const store = createContext();
@@ -53,6 +54,7 @@ function App() {
 						/>
 						<Route path="/user/request" element={<Request />} />
 						<Route path="/user/application_status" element={<ApplicationStatus />} />
+						<Route path="/admin/application_status" element={<ApplicationStatusAll />} />
 						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>

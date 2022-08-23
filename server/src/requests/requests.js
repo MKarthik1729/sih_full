@@ -2,11 +2,31 @@ const express = require("express");
 
 const Router = express.Router();
 
-const FormData = require("../Schema/FormSchema");
-
 const get_equipment = require("../Schema/Requests/getEquipmentSchema");
 const get_ground = require("../Schema/Requests/getGroundsSchema");
 const get_playfield = require("../Schema/Requests/getPlayfieldSchema");
+
+const nodemailer = require("nodemailer")
+
+let transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: 'khelindiasih@gmail.com',
+		pass: 'zroelddfprtzfqks'
+	}
+});
+
+
+// Function to send Email for the given configuration of emails
+function sendEmail(mailOptions) {
+	transporter.sendMail(mailOptions, function (error, info) {
+		if (error) {
+			console.log(error);
+		} else {
+			console.log('Email sent: ' + info.response);
+		}
+	});
+}
 
 Router.post("/newrequest", async (req, res) => {
 	let token = "";
@@ -41,6 +61,17 @@ Router.post("/newrequest", async (req, res) => {
 			await r.save();
 
 			token = await get_ground.find({ useremail: req.body.useremail });
+			let responseText = `We have received your request for 'Get a ground'. Please use the following token number for futher application Status: ${token[0]._id.toString()} \n\nThank you.\nKhel India.`;
+			
+			let mailOptions = {
+				from: 'khelindiasih@gmail.com',
+				to: req.body.useremail,
+				subject: 'A new application for "Get a ground"',
+				text: responseText
+			};
+			
+			sendEmail(mailOptions);
+
 			console.log(token[0]._id.toString());
 			res.send({ token: token });
 		}
@@ -71,6 +102,17 @@ Router.post("/newrequest", async (req, res) => {
 			await r.save();
 
 			token = await get_equipment.find({ useremail: req.body.useremail });
+			let responseText = `We have received your request for 'Get equipment'. Please use the following token number for futher application Status: ${token[0]._id.toString()} \n\nThank you.\nKhel India.`;
+			
+			let mailOptions = {
+				from: 'khelindiasih@gmail.com',
+				to: req.body.useremail,
+				subject: 'A new application for "Get a equipment"',
+				text: responseText
+			};
+			
+			sendEmail(mailOptions);
+
 			console.log(token[0]._id.toString());
 			res.send({ token: token });
 		}
@@ -99,18 +141,111 @@ Router.post("/newrequest", async (req, res) => {
 			});
 
 			await r.save();
-
+			
 			token = await get_playfield.find({ useremail: req.body.useremail });
+			let responseText = `We have received your request for 'Get a playfield'. Please use the following token number for futher application Status: ${token[0]._id.toString()} \n\nThank you.\nKhel India.`;
+			
+			let mailOptions = {
+				from: 'khelindiasih@gmail.com',
+				to: req.body.useremail,
+				subject: 'A new application for "Get a playfield"',
+				text: responseText
+			};
+			
+			sendEmail(mailOptions);
+
 			console.log(token[0]._id.toString());
 			res.send({ token: token });
 		}
 	}
 });
 
-Router.get("/allrequests", async (req, res) => {
-	const result = await get_ground.find();
-	console.log(result);
-	res.send(result);
+Router.post('/change_status', async (req, res) => {
+	const type = req.body.req_type
+	console.log(req.body);
+
+	if(type === 'get_ground'){
+		await get_ground.updateOne({_id : req.body.id}, { $set : {status : req.body.change_status_to}})
+		
+		let responseText = "";
+		if(req.body.change_status_to === 'Accepted'){
+			responseText = `We are pleased to announce that your application for "Getting a ground" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.`
+		}else{
+			responseText = `We are sorry to say that your application for "Getting a ground" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`
+		}
+
+		const user = await get_ground.findOne({_id: req.body.id})
+		console.log(user.useremail)
+
+		let mailOptions = {
+			from: 'khelindiasih@gmail.com',
+			to: user.useremail,
+			subject: 'Progress in your request for Khel India',
+			text: responseText
+		};
+
+		console.log("Changed");
+
+		sendEmail(mailOptions);
+	}
+
+	if(type === 'get_equipment'){
+		let responseText = "";
+		if(req.body.change_status_to === 'Accepted'){
+			responseText = `We are pleased to announce that your application for "Getting equipment" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.`
+		}else{
+			responseText = `We are sorry to say that your application for "Getting equipment" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`
+		}
+		await get_equipment.updateOne({_id : req.body.id}, { $set : {status : req.body.change_status_to}})
+		
+		const user = await get_equipment.findOne({_id: req.body.id})
+		console.log(user.useremail)
+
+		let mailOptions = {
+			from: 'khelindiasih@gmail.com',
+			to: user.useremail,
+			subject: 'Progress in your request for Khel India',
+			text: responseText
+		};
+
+		console.log("Changed");
+
+		sendEmail(mailOptions);
+	}
+
+	if(type === 'get_playfield'){
+		let responseText = "";
+		if(req.body.change_status_to === 'Accepted'){
+			responseText = `We are pleased to announce that your application for "Getting a playfield" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.`
+		}else{
+			responseText = `We are sorry to say that your application for "Getting a playfield" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`
+		}
+		await get_playfield.updateOne({_id : req.body.id}, { $set : {status : req.body.change_status_to}})
+		
+		const user = await get_playfield.findOne({_id: req.body.id})
+		console.log(user.useremail)
+
+		let mailOptions = {
+			from: 'khelindiasih@gmail.com',
+			to: user.useremail,
+			subject: 'Progress in your request for Khel India',
+			text: responseText
+		};
+
+		console.log("Changed");
+
+		sendEmail(mailOptions);
+	}
+
+	res.send({ status: "Changed" });
+})
+
+Router.get("/getallrequests", async (req, res) => {
+	const result1 = await get_ground.find();
+	const result2 = await get_equipment.find();
+	const result3 = await get_playfield.find();
+
+	res.send({get_ground: result1, get_equipment: result2, get_playfield: result3});
 });
 
 Router.post("/search_for_request", async (req, res) => {
@@ -140,5 +275,6 @@ Router.post("/search_for_request", async (req, res) => {
 
 	console.log("OOPS! Result not found");
 });
+
 
 module.exports = Router;

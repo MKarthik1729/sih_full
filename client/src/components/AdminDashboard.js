@@ -1,75 +1,67 @@
-// import React, { useContext } from "react";
-// import {
-// 	AiOutlineSetting,
-// 	AiOutlineLogout,
-// 	AiOutlinePlusCircle,
-// } from "react-icons/ai";
-// // import {
-// // 	BottomPart,
-// // 	MainUser,
-// // 	RightBottom,
-// // 	SideBarPart,
-// // 	TopRight,
-// // 	TotDiv,
-// // 	WhitePara,
-// // } from "../style/interface";
-
-// import { BiUserCircle } from "react-icons/bi";
-
-// function AdminDashboard() {
-// 	const useremail = "rohithboppey1298@gmail.com"
-// 	return (
-// 		<TotDiv>
-// 			<TopRight>
-// 				<BiUserCircle size="50" />
-// 				<h4>My Profile</h4>
-// 			</TopRight>
-// 			<SideBarPart>
-// 				<WhitePara> Here data links will be present</WhitePara>
-// 				<WhitePara>Dashboard</WhitePara>
-// 				<WhitePara>All Forms</WhitePara>
-// 				<WhitePara>Sanctioned</WhitePara>
-// 				<WhitePara>Rejected</WhitePara>
-// 				<BottomPart>
-// 					<WhitePara>
-// 						<AiOutlineSetting size="20" /> Settings
-// 					</WhitePara>
-// 					<WhitePara>
-// 						<AiOutlineLogout size="20" /> Logout
-// 					</WhitePara>
-// 				</BottomPart>
-// 			</SideBarPart>
-// 			<MainUser>
-// 				<div>
-// 					<h4>Hello Karthik</h4>
-// 					<p>Here is your personal Account</p>
-// 				</div>
-// 				<h3>middle</h3>
-// 			</MainUser>
-// 			<RightBottom onClick={() => console.log()}>
-// 				<AiOutlinePlusCircle size="60" />
-// 				<p>New Application</p>
-// 			</RightBottom>
-// 		</TotDiv>
-// 	);
-// }
-
-// export default AdminDashboard;
-
 import React, { useContext } from "react";
+import {
+	AiOutlineSetting,
+	AiOutlineLogout,
+	AiOutlinePlusCircle,
+} from "react-icons/ai";
+import {
+	BottomPart,
+	MainUser,
+	RightBottom,
+	SideBarPart,
+	TopRight,
+	TotDiv,
+	WhitePara,
+} from "./interface";
+
 import { store } from "../App";
 
+import { BiUserCircle } from "react-icons/bi";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 const AdminDashboard = () => {
-	
+	const navigate = useNavigate();
+
 	/* eslint-disable no-unused-vars */
-	const [user, setUser] = useContext(store);  
+	const [user, setUser] = useContext(store);
 
-	return (
-		<div>
-			<div>AdminDashboard</div>
-			<h1>{user._id}</h1>
-		</div>
-	);
-};
+	useEffect(() => {
+		console.log(user);
+		if (Object.keys(user).length === 0) {
+			navigate("/admin/login");
+		}
+	});
+	
+  return (
+	<TotDiv>
+			<SideBarPart>
+				<Link to="/admin/application_status">
+					<WhitePara>Check All application status</WhitePara>
+				</Link>
+				<BottomPart>
+					<WhitePara>
+						<Link to="/admin/login">
+							<AiOutlineLogout size="20" /> Logout
+						</Link>
+					</WhitePara>
+				</BottomPart>
+			</SideBarPart>
+			<MainUser>
+				<div>
+					<h1>Hello {`${user.fullname}`}</h1>
+					<p>Welcome back to your Admin Account</p>
+					<p>
+						Your Admin ID is <b>{user._id}</b>
+					</p>
+				</div>
+				<h3>
+					Check All Applications from the Left to accept or reject.
+				</h3>
+			</MainUser>
+			
+		</TotDiv>
+  )
+}
 
-export default AdminDashboard;
+export default AdminDashboard

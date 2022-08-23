@@ -1,0 +1,28 @@
+body {
+  background-color: white;
+}
+
+table, th, td {
+  border: 2.5px solid rgba(0, 0, 0, 0.418) ;
+  background-color: white;
+} 
+
+td {
+  padding : 7px
+}
+
+table {
+  width : 750px;
+}
+
+.card {
+    background-color: white;
+    width: 300px;
+}
+
+.card-holder {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
