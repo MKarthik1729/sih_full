@@ -64,8 +64,8 @@ Router.post("/newrequest", async (req, res) => {
 			const r = new get_equipment({
 				useremail: req.body.useremail,
 				name: req.body.name,
-				number_of_items: req.body.number_of_items,
-				approx_price: req.body.approx_price,
+				number_of_items_and_reason: req.body.number_of_items_and_reason,
+				addn_info: req.body.addn_info,
 			});
 
 			await r.save();
@@ -94,8 +94,8 @@ Router.post("/newrequest", async (req, res) => {
 			const r = new get_playfield({
 				useremail: req.body.useremail,
 				required_for: req.body.required_for,
-				approx_usage: req.body.approx_usage,
-				consent_letter: req.body.consent_letter,
+				intended_age_and_reason: req.body.intended_age_and_reason,
+				addn_info: req.body.addn_info,
 			});
 
 			await r.save();
@@ -113,7 +113,7 @@ Router.get("/allrequests", async (req, res) => {
 	res.send(result);
 });
 
-Router.post("/validate", async (req, res) => {
+Router.post("/search_for_request", async (req, res) => {
 	const token = req.body.token;
 	console.log(token);
 

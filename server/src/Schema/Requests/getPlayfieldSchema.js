@@ -6,9 +6,8 @@ const getPlayfieldSchema = mongoose.Schema({
 		unique: true,
 	},
 	required_for: String,
-	approx_usage: String,
-	consent_letter: Boolean,
-	approx_price: Number,
+	intended_age_and_reason: String,
+	addn_info: String,
 	status: {
 		type: String,
 		default: "Pending",

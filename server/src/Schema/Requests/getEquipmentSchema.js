@@ -6,8 +6,8 @@ const getEquipmentSchema = mongoose.Schema({
         unique : true
     },
     name : String,
-    number_of_items : Number,
-    approx_price : Number,
+    number_of_items_and_reason : String,
+    addn_info : String,
 	status : {
 		type : String, 
 		default : "Pending"

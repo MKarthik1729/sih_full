@@ -128,7 +128,7 @@ const Tabs = () => {
 		event.preventDefault();
 
 		const temp = {
-			request_type : "get_grounds",
+			request_type: "get_grounds",
 			useremail: user.useremail,
 			ground_area: reqOneInputOne.current.value,
 			purpose: reqOneInputTwo.current.value,
@@ -140,7 +140,7 @@ const Tabs = () => {
 		const res = await Axios.post(
 			"http://localhost:5000/requests/newRequest",
 			{
-				request_type : "get_grounds",
+				request_type: "get_grounds",
 				useremail: user.useremail,
 				ground_area: reqOneInputOne.current.value,
 				purpose: reqOneInputTwo.current.value,
@@ -149,24 +149,91 @@ const Tabs = () => {
 		);
 
 		const data = res.data;
-		console.log(data);
-		navigate('/user/login')
+		if (data.token[0]) {
+			console.log("Token found");
+			console.log(data);
+			navigate("/user/application_status");
+		} else {
+			navigate("/user/login");
+		}
 	};
 
-	const submitHandler2 = (event) => {
+	const submitHandler2 = async (event) => {
 		event.preventDefault();
+		const temp = {
+			request_type: "get_equipment",
+			useremail: user.useremail,
+			name: reqTwoInputOne.current.value,
+			number_of_items_and_reason: reqTwoInputTwo.current.value,
+			addn_info: reqTwoInputThree.current.value,
+		};
+
+		console.log(temp);
+
+		const result = await Axios.post(
+			"http://localhost:5000/requests/newRequest",
+			{
+				request_type: "get_equipment",
+				useremail: user.useremail,
+				name: reqTwoInputOne.current.value,
+				number_of_items_and_reason: reqTwoInputTwo.current.value,
+				addn_info: reqTwoInputThree.current.value,
+			}
+		);
+
+		const data = result.data;
+		if (data.token[0]) {
+			console.log("Token found");
+			console.log(data);
+			navigate("/user/application_status");
+		} else {
+			navigate("/user/login");
+		}
 	};
 
-	const submitHandler3 = (event) => {
+	const submitHandler3 = async (event) => {
 		event.preventDefault();
+		const temp = {
+			request_type: "get_playfield",
+			useremail: user.useremail,
+			name: reqThreeInputOne.current.value,
+			intended_age_and_reason: reqThreeInputTwo.current.value,
+			addn_info: reqThreeInputThree.current.value,
+		};
+
+		console.log(temp);
+
+		const result = await Axios.post(
+			"http://localhost:5000/requests/newRequest",
+			{
+				request_type: "get_playfield",
+				useremail: user.useremail,
+				required_for: reqThreeInputOne.current.value,
+				intended_age_and_reason: reqThreeInputTwo.current.value,
+				addn_info: reqThreeInputThree.current.value,
+			}
+		);
+
+		const data = result.data;
+		if (data.token[0]) {
+			console.log("Token found");
+			console.log(data);
+			navigate("/user/application_status");
+		} else {
+			navigate("/user/login");
+		}
 	};
 
+	
 	useEffect(() => {
 		if (Object.keys(user).length === 0) {
 			navigate("/user/login");
 		}
+		// eslint-disable-next-line
 	}, []);
 
+	// eslint-disable-next-line
+	
 	const [currentTab, setCurrentTab] = useState("1");
 
 	const SchoolDetails = (
@@ -451,8 +518,7 @@ const Tabs = () => {
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Intented purpose and meant for which
-										aged people
+										Intented age meant for which aged people
 									</label>
 									<input
 										class="input--style-4"

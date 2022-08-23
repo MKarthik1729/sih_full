@@ -34,7 +34,7 @@ function Login(props) {
 					if (props.value === "Admin") {
 						navigate("/admin/dashboard");
 					} else if (props.value === "User") {
-						navigate("/user/request");
+						navigate("/user/dashboard");
 					}
 				}
 			})
