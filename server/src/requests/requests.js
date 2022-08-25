@@ -7,6 +7,7 @@ const get_ground = require("../Schema/Requests/getGroundsSchema");
 const get_playfield = require("../Schema/Requests/getPlayfieldSchema");
 
 const nodemailer = require("nodemailer");
+const { request } = require("express");
 
 let transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -32,17 +33,6 @@ Router.post("/newrequest", async (req, res) => {
 	console.log(req.body);
 	// FormData.create(req.body);
 	if (req.body.request_type === "get_grounds") {
-		// Request type should be: -------------------------------------------------------
-		// {
-		//     "useremail" : "karthik.k20@iiits.in",
-		//     "request_type" : "get_grounds",
-		//     "ground_shape": "Rectangle",
-		// 	"ground_height": 69696,
-		// 	"ground_width": 6969,
-		// 	"needed_improvement_info": "Guddha balga undaali plough chesi neat ga",
-		// 	"approx_price": 69420
-		// }
-
 		token = await get_ground.find({ useremail: req.body.useremail });
 		console.log(token);
 
@@ -56,7 +46,7 @@ Router.post("/newrequest", async (req, res) => {
 			}
 		}
 
-		console.log("Creating new request")
+		console.log("Creating new request");
 		const r = new get_ground({
 			request_type: "get_grounds",
 			useremail: req.body.useremail,
@@ -70,7 +60,9 @@ Router.post("/newrequest", async (req, res) => {
 
 		await r.save();
 
-		token = await get_ground.find({ useremail: req.body.useremail }).sort({_id : -1});
+		token = await get_ground
+			.find({ useremail: req.body.useremail })
+			.sort({ _id: -1 });
 		let responseText = `
 			<html><head><b>
 			Great to have you on board
@@ -83,7 +75,7 @@ Router.post("/newrequest", async (req, res) => {
 			</html>`;
 
 		console.log(token);
-		
+
 		let mailOptions = {
 			from: "khelindiasih@gmail.com",
 			to: req.body.useremail,
@@ -92,13 +84,18 @@ Router.post("/newrequest", async (req, res) => {
 		};
 
 		sendEmail(mailOptions);
-		if(token[0].ground_area < 500){
+		if (token[0].ground_area < 500) {
 			// have to reject
 			console.log("Rejecting due to less area");
-			
+
 			await get_ground.updateOne(
 				{ _id: token[0]._id },
-				{ $set: { status: 'Rejected', remarks : 'Rejected to less area' } }
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected to less area",
+					},
+				}
 			);
 
 			let responseText = `
@@ -121,13 +118,18 @@ Router.post("/newrequest", async (req, res) => {
 
 			sendEmail(mailOptions);
 		}
-		if(token[0].approx_price > 1000000){
+		if (token[0].approx_price > 1000000) {
 			// have to reject
 			console.log("Rejecting due to very high approx price");
-			
+
 			await get_ground.updateOne(
 				{ _id: token[0]._id },
-				{ $set: { status: 'Rejected', remarks : 'Rejected due to high approx price' } }
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected due to high approx price",
+					},
+				}
 			);
 
 			let responseText = `
@@ -149,91 +151,255 @@ Router.post("/newrequest", async (req, res) => {
 			};
 
 			sendEmail(mailOptions);
-		}		
+		}
 		console.log(token[0]._id.toString());
 		res.send({ token: token });
 	} else if (req.body.request_type === "get_equipment") {
-		// Request type should be: -------------------------------------------------------
-
-		// {
-		//     "useremail" : "karthik.k20@iiits.in",
-		//     "request_type" : "get_equipment",
-		//     "name" : "Rubber Balls",
-		//     "number_of_items" : 50,
-		//     "approx_price" : 6969
-		// }
-
 		token = await get_equipment.find({ useremail: req.body.useremail });
 		console.log(token);
-		if (token.length > 0) {
-			console.log("Token is: " + token[0]._id.toString());
-			res.send({ token: token });
-		} else {
-			const r = new get_equipment({
+
+		for (const i in token) {
+			if (token[i].status === "Pending") {
+				console.log("Request already found");
+				console.log("Token is: " + token[0]._id.toString());
+				res.send({ token: token });
+				return;
+				break;
+			}
+		}
+
+		console.log("Creating new request");
+		const r = new get_equipment({
+			request_type: "get_equipment",
 				useremail: req.body.useremail,
-				name: req.body.name,
-				number_of_items_and_reason: req.body.number_of_items_and_reason,
+				name_of_equipment: req.body.name_of_equipment,
+				number_of_items: req.body.number_of_items,
+				approx_price : req.body.approx_price,
 				addn_info: req.body.addn_info,
-			});
+		});
 
-			await r.save();
+		await r.save();
 
-			token = await get_equipment.find({ useremail: req.body.useremail });
-			let responseText = `We have received your request for 'Get equipment'. Please use the following token number for futher application Status: ${token[0]._id.toString()} \n\nThank you.\nKhel India.`;
+		token = await get_equipment
+			.find({ useremail: req.body.useremail })
+			.sort({ _id: -1 });
+		let responseText = `
+			<html><head><b>
+			Great to have you on board
+			</b>
+			</head>
+			<body>
+			We have received your request for 'Get sports equipment'. 
+			Please use the following token number for futher application Status: <b>${token[0]._id.toString()}</b> \n\nThank you.\nKhel India. 
+			</body>
+			</html>`;
+
+		console.log(token);
+
+		let mailOptions = {
+			from: "khelindiasih@gmail.com",
+			to: req.body.useremail,
+			subject: 'A new application for "Get Sports Equipment"',
+			html: responseText,
+		};
+
+		sendEmail(mailOptions);
+		if (token[0].number_of_items > 5000) {
+			// have to reject
+			console.log("Rejecting due to high number of items");
+
+			await get_ground.updateOne(
+				{ _id: token[0]._id },
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected to high number of items",
+					},
+				}
+			);
+
+			let responseText = `
+			<html><head><b>
+			Your application has been rejected
+			</b>
+			</head>
+			<body>
+			We have received your request for 'Get Sports Equipment'. 
+			We are sorry to say that your application with following token number: <span style = "color : red" ><b>${token[0]._id.toString()}</span></b> has been rejected due to high number of requests. We are currently not accepting number of items more than 5000. <br> Please apply in few more days <br><br><b> Thank you <b><br> Khelo India.
+			</body>
+			</html>`;
 
 			let mailOptions = {
 				from: "khelindiasih@gmail.com",
 				to: req.body.useremail,
-				subject: 'A new application for "Get a equipment"',
-				text: responseText,
+				subject: 'Progress regarding "Get a sports" application',
+				html: responseText,
 			};
 
 			sendEmail(mailOptions);
-
-			console.log(token[0]._id.toString());
-			res.send({ token: token });
 		}
-	} else if (req.body.request_type === "get_playfield") {
-		// Request type should be: -------------------------------------------------------
+		if (token[0].approx_price > 1000000) {
+			// have to reject
+			console.log("Rejecting due to very high approx price");
 
-		// {
-		//     "useremail" : "karthik.m20@iiits.in",
-		//     "request_type" : "get_playfield",
-		//     "required_for": "Pook gallu",
-		//     "approx_usage": "Mathi leni modda gaallaki",
-		//     "consent_letter": true
-		// }
+			await get_equipment.updateOne(
+				{ _id: token[0]._id },
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected due to high approx price",
+					},
+				}
+			);
+
+			let responseText = `
+			<html><head><b>
+			Your application has been rejected
+			</b>
+			</head>
+			<body>
+			We have received your request for 'Get sports equipment'. 
+			We are sorry to say that your application with following token number: <span style = "color : red" ><b>${token[0]._id.toString()}</span></b> due to high approximate price <br> Please apply in few more days <br><br><b> Thank you <b><br> Khelo India.
+			</body>
+			</html>`;
+
+			let mailOptions = {
+				from: "khelindiasih@gmail.com",
+				to: req.body.useremail,
+				subject:
+					'Progress regarding "Get Sports Equipment" application',
+				html: responseText,
+			};
+
+			sendEmail(mailOptions);
+		}
+		console.log(token[0]._id.toString());
+		res.send({ token: token });
+	} else if (req.body.request_type === "get_playfield") {
 
 		token = await get_playfield.find({ useremail: req.body.useremail });
 		console.log(token);
-		if (token.length > 0) {
-			console.log("Token is: " + token[0]._id.toString());
-			res.send({ token: token });
-		} else {
-			const r = new get_playfield({
-				useremail: req.body.useremail,
-				required_for: req.body.required_for,
-				intended_age_and_reason: req.body.intended_age_and_reason,
-				addn_info: req.body.addn_info,
-			});
 
-			await r.save();
+		for (const i in token) {
+			if (token[i].status === "Pending") {
+				console.log("Request already found");
+				console.log("Token is: " + token[0]._id.toString());
+				res.send({ token: token });
+				return;
+			}
+		}
 
-			token = await get_playfield.find({ useremail: req.body.useremail });
-			let responseText = `We have received your request for 'Get a playfield'. Please use the following token number for futher application Status: ${token[0]._id.toString()} \n\nThank you.\nKhel India.`;
+		console.log("Creating new request");
+
+		const r = new get_playfield({
+			useremail: req.body.useremail,
+			required_for: req.body.required_for,
+			intended_age: req.body.intended_age,
+			approx_price: req.body.approx_price,
+			addn_info: req.body.addn_info,
+			approx_usage_per_week: req.body.approx_usage_per_week,
+		});
+
+		await r.save();
+
+		token = await get_playfield
+			.find({ useremail: req.body.useremail })
+			.sort({ _id: -1 });
+
+		let responseText = `
+			<html><head><b>
+			Great to have you on board
+			</b>
+			</head>
+			<body>	
+			We have received your request for 'Get a playfield'. 
+			Please use the following token number for futher application Status: ${token[0]._id.toString()} <br><br>Thank you.<br>>Khel India. 
+			</body>
+			</html>`;
+
+		let mailOptions = {
+			from: "khelindiasih@gmail.com",
+			to: req.body.useremail,
+			subject: 'A new application for "Get a playfield"',
+			text: responseText,
+		};
+
+		sendEmail(mailOptions);
+
+		if (token[0].approx_usage_per_week > 500) {
+			// have to reject
+			console.log("Rejecting due to high usage");
+
+			await get_playfield.updateOne(
+				{ _id: token[0]._id },
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected to high usage",
+					},
+				}
+			);
+
+			let responseText = `
+				<html><head><b>
+				Your application has been rejected
+				</b>
+				</head>
+				<body>
+				We have received your request for 'Get a playfield'. 
+				We are sorry to say that your application with following token number: <span style = "color : red" ><b>${token[0]._id.toString()}</span></b> has been rejected due to higher number of people. 
+				We are currently not accepting frequency > 500 per week.
+				<br> Please apply in few more days <br><br><b> Thank you <b><br> Khelo India.
+				</body>
+				</html>`;
 
 			let mailOptions = {
 				from: "khelindiasih@gmail.com",
 				to: req.body.useremail,
-				subject: 'A new application for "Get a playfield"',
-				text: responseText,
+				subject: 'Progress regarding "Get a playfield" application',
+				html: responseText,
 			};
 
 			sendEmail(mailOptions);
-
-			console.log(token[0]._id.toString());
-			res.send({ token: token });
 		}
+
+		if (token[0].approx_price > 1000000) {
+			// have to reject
+			console.log("Rejecting due to very high approx price");
+
+			await get_playfield.updateOne(
+				{ _id: token[0]._id },
+				{
+					$set: {
+						status: "Rejected",
+						remarks: "Rejected due to high approx price",
+					},
+				}
+			);
+
+			let responseText = `
+				<html><head><b>
+				Your application has been rejected
+				</b>
+				</head>
+				<body>
+				We have received your request for 'Get a playfield'. 
+				We are sorry to say that your application with following token number: <span style = "color : red" ><b>${token[0]._id.toString()}</span></b> has been rejected due to high approximate price <br> Please apply in few more days <br><br><b> Thank you <b><br> Khelo India.
+				</body>
+				</html>`;
+
+			let mailOptions = {
+				from: "khelindiasih@gmail.com",
+				to: req.body.useremail,
+				subject: 'Progress regarding "Get a playfield" application',
+				html: responseText,
+			};
+
+			sendEmail(mailOptions);
+		}
+
+		console.log(token[0]._id.toString());
+		res.send({ token: token });
 	}
 });
 
@@ -388,6 +554,6 @@ Router.post("/search_for_request", async (req, res) => {
 	res.json({ error: "error" });
 
 	console.log("OOPS! Result not found");
-});
+});	
 
 module.exports = Router;

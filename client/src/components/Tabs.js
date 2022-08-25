@@ -22,10 +22,14 @@ const Tabs = () => {
 	const reqTwoInputOne = useRef("");
 	const reqTwoInputTwo = useRef("");
 	const reqTwoInputThree = useRef("");
+	const reqTwoInputFour = useRef("");
+	
 
 	const reqThreeInputOne = useRef("");
 	const reqThreeInputTwo = useRef("");
 	const reqThreeInputThree = useRef("");
+	const reqThreeInputFour = useRef("");
+	const reqThreeInputFive = useRef("");
 
 	console.log(user, Object.keys(user).length);
 
@@ -90,9 +94,10 @@ const Tabs = () => {
 			{
 				request_type: "get_equipment",
 				useremail: user.useremail,
-				name: reqTwoInputOne.current.value,
-				number_of_items_and_reason: reqTwoInputTwo.current.value,
-				addn_info: reqTwoInputThree.current.value,
+				name_of_equipment: reqTwoInputOne.current.value,
+				number_of_items: reqTwoInputTwo.current.value,
+				approx_price : reqTwoInputThree.current.value,
+				addn_info: reqTwoInputFour.current.value,
 			}
 		);
 
@@ -111,9 +116,11 @@ const Tabs = () => {
 		const temp = {
 			request_type: "get_playfield",
 			useremail: user.useremail,
-			name: reqThreeInputOne.current.value,
-			intended_age_and_reason: reqThreeInputTwo.current.value,
-			addn_info: reqThreeInputThree.current.value,
+			approx_usage_per_week: reqThreeInputOne.current.value,
+			required_for: reqThreeInputTwo.current.value,
+			approx_price: reqThreeInputThree.current.value,
+			intended_age: reqThreeInputFour.current.value,
+			addn_info: reqThreeInputFive.current.value,
 		};
 
 		console.log(temp);
@@ -123,8 +130,10 @@ const Tabs = () => {
 			{
 				request_type: "get_playfield",
 				useremail: user.useremail,
-				required_for: reqThreeInputOne.current.value,
-				intended_age_and_reason: reqThreeInputTwo.current.value,
+				approx_usage_per_week: reqThreeInputOne.current.value,
+				required_for: reqThreeInputTwo.current.value,
+				approx_price: reqThreeInputThree.current.value,
+				intended_age: reqThreeInputFour.current.value,
 				addn_info: reqThreeInputThree.current.value,
 			}
 		);
@@ -408,12 +417,11 @@ const Tabs = () => {
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Number of people and reason it is
-										intended for
+										Intended Number of people
 									</label>
 									<input
 										class="input--style-4"
-										type="text"
+										type="number"
 										name="purpose"
 										// onChange={reqTwoNumPeopleHandler}
 										// value={numPeople}
@@ -423,22 +431,45 @@ const Tabs = () => {
 							</div>
 						</div>
 
-						<div>
-							<div class="input-group">
-								<label class="label">
-									Additional Details (Information about
-									divisons in items, etc.)
-								</label>
-								<input
-									class="input--style-4"
-									type="text"
-									name="addn-info"
-									// onChange={reqTwoDetailsHandler}
-									// value={details}
-									ref={reqTwoInputThree}
-								/>
+						<div class="row row-space">
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Approx price for the requirements (In
+										rupees ₹)
+									</label>
+									<input
+										class="input--style-4"
+										type="number"
+										name="purpose"
+										min="1000"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqOneInputThree}
+										required
+									/>
+								</div>
+							</div>
+
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Additional Details (Information about
+										divisons in items, etc.)
+									</label>
+									<input
+										class="input--style-4"
+										type="text"
+										name="addn-info"
+										// onChange={reqTwoDetailsHandler}
+										// value={details}
+										ref={reqTwoInputFour}
+									/>
+								</div>
 							</div>
 						</div>
+
+						
 						<br />
 						<hr />
 						<br />
@@ -465,73 +496,115 @@ const Tabs = () => {
 					<div class="body">
 						<p>Request Details : -</p>
 						<p>
-							You can request dedicated track and field, road
-							running, race walking, cross country running,
+							You can keep requests reagarding track and field,
+							road running, race walking, cross country running,
 							mountain running, and trail running.
 						</p>
-
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Purpose for additional Area
+										Dedicated for which sport
 									</label>
 									<input
 										class="input--style-4"
 										type="text"
-										name="required-ground-area"
-										// onChange = {reqThreeAdditionalAreaHandler}
-										// value={additionalArea}
-										ref={reqThreeInputOne}
+										name="purpose"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqThreeInputTwo}
+										required
 									/>
 								</div>
 							</div>
-
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Intented age
+										Approx Usage (Number of people per week)
+									</label>
+									<input
+										class="input--style-4"
+										type="number"
+										min="1"
+										name="required-ground-area"
+										// onChange={reqOneGroundAreaHandler}
+										// value={groundArea}
+										ref={reqThreeInputOne}
+										required
+									/>
+								</div>
+							</div>
+						</div>
+						<div class="row row-space">
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Approx price for the requirements (In
+										rupees ₹)
 									</label>
 									<input
 										class="input--style-4"
 										type="number"
 										name="purpose"
-										min = '10'
-										max = '80'
-										// onChange = {reqThreeAgedPeopleHandler}
-										// value={agedPeople}
-										ref={reqThreeInputTwo}
+										min="1000"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqThreeInputThree}
+										required
+									/>
+								</div>
+							</div>
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Intended age of sportspersons
+									</label>
+									<input
+										class="input--style-4"
+										type="number"
+										name="purpose"
+										min="1000"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqThreeInputFour}
+										required
 									/>
 								</div>
 							</div>
 						</div>
 
-						<div>
+						<div class="col-2">
 							<div class="input-group">
 								<label class="label">
-									Additional Details (Information about
-									installation of benches, slides, etc.)
+									Additional Requirements (Ploughing,
+									Gardening etc.)
 								</label>
 								<input
 									class="input--style-4"
 									type="text"
 									name="addn-info"
-									// onChange={reqThreeAdditionalDetailsHandler}
-									// value={additionalDetails}
-									ref={reqThreeInputThree}
+									// onChange={reqOneRequirementsHandler}
+									// value={requirements}
+									ref={reqThreeInputFive}
+									required
 								/>
 							</div>
 						</div>
+						<div></div>
 						<br />
 						<hr />
 						<br />
 
 						<p> School Details : - </p>
-						{SchoolDetails}
 					</div>
 
+					{SchoolDetails}
 					<div class="p-t-15">
-						<button type="submit">Submit</button>
+						<button
+							class="btn btn--radius-2 btn--blue"
+							type="submit">
+							Submit
+						</button>
 					</div>
 				</form>
 			),

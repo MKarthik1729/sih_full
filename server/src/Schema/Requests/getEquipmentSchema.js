@@ -3,11 +3,9 @@ const mongoose = require('mongoose');
 const getEquipmentSchema = mongoose.Schema({
     useremail : {
         type : String,
-        unique : true
     },
-    name : String,
-    
-    number_of_items_and_reason : String,
+    name_of_equipment : String,
+    number_of_items: Number,
     addn_info : String,
     approx_price : Number,
 	status : {
