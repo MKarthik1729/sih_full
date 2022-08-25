@@ -17,11 +17,15 @@ function Login(props) {
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
-
-		Axios.post(`http://localhost:5000/${props.value === 'Admin' ? 'admin' : 'user'}/login`, {
-			useremail: useremailRef.current.value,
-			password: passwordRef.current.value,
-		})
+		Axios.post(
+			`http://localhost:5000/${
+				props.value === "Admin" ? "admin" : "user"
+			}/login`,
+			{
+				useremail: useremailRef.current.value,
+				password: passwordRef.current.value,
+			}
+		)
 			.then((res) => {
 				let u = res.data;
 				console.log(u);
@@ -54,8 +58,15 @@ function Login(props) {
 			</Link>
 
 			<div style={{ margin: 30 }}>
-				<p> Enter your <b><span style = {{fontSize : 20}}>{props.value}</span></b> details here to log-in.</p>
-				<div className ="login-form">
+				<p>
+					{" "}
+					Enter your{" "}
+					<b>
+						<span style={{ fontSize: 20 }}>{props.value}</span>
+					</b>{" "}
+					details here to log-in.
+				</p>
+				<div className="login-form">
 					<form onSubmit={submitHandler}>
 						<h2 className="text-center">Log in</h2>
 						<div className="form-group">
@@ -78,11 +89,18 @@ function Login(props) {
 								required="required"
 							/>
 						</div>
+						<div className="forgot-password">
+							<a
+								href="/user/login/forgotPassword"
+								className="float-right">
+								Forgot Password?
+							</a>
+						</div>
 						<div className="form-group">
 							<button
 								type="submit"
 								className="btn btn-primary btn-block">
-								Log in
+								Login
 							</button>
 						</div>
 						<div className="clearfix">
@@ -91,15 +109,10 @@ function Login(props) {
 									<a
 										href="/user/signup"
 										className="float-right">
-										Sign up
+										New user? Register instead
 									</a>
 								</div>
 							)}
-							<a
-								href="/user/login/forgotPassword"
-								className="float-right">
-								Forgot Password?
-							</a>
 						</div>
 					</form>
 				</div>

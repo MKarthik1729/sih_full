@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Axios from "axios";
 
 import "./appstatus.css";
+import Navbar from "./UI/Navbar";
 
 const ApplicationStatusAll = () => {
 	const navigate = useNavigate();
@@ -203,6 +204,7 @@ const ApplicationStatusAll = () => {
 
 	return (
 		<div>
+			<Navbar user="Admin"/>
 			<div>
 				<p>
 					Your Admin ID is <b>{user._id}</b>

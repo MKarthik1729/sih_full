@@ -12,6 +12,7 @@ import UserInterface from './components/UserInterface';
 import ApplicationStatus from "./components/ApplicationStatus"; 	
 import Signup from "./components/Signup";
 import ApplicationStatusAll from "./components/ApplicationStatusAll";
+import ShowAllApplications from "./components/ShowAllApplications";
 
 
 export const store = createContext();
@@ -23,7 +24,7 @@ function App() {
 			<store.Provider value={[user, setUser]}>
 				<BrowserRouter>
 					<Routes>
-						<Route path="/" element={<Home />} />
+						<Route path="/" element={<Home />} exact />
 						<Route
 							path="/admin/login"
 							element={<Login value="Admin" />}
@@ -54,7 +55,8 @@ function App() {
 						/>
 						<Route path="/user/request" element={<Request />} />
 						<Route path="/user/application_status" element={<ApplicationStatus />} />
-						<Route path="/admin/application_status" element={<ApplicationStatusAll />} />
+						<Route path="/user/all_applications" element={<ShowAllApplications />} />
+						<Route path="/admin/all_applications" element={<ApplicationStatusAll />} />
 						<Route path="*" element={<PageNotFound />} />
 					</Routes>
 				</BrowserRouter>
