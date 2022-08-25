@@ -1,22 +1,7 @@
 import React, { useContext } from "react";
-import {
-	AiOutlineSetting,
-	AiOutlineLogout,
-	AiOutlinePlusCircle,
-} from "react-icons/ai";
-import {
-	BottomPart,
-	MainUser,
-	RightBottom,
-	SideBarPart,
-	TopRight,
-	TotDiv,
-	WhitePara,
-} from "./interface";
 
 import { store } from "../App";
 
-import { BiUserCircle } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./UI/Navbar";
@@ -32,6 +17,7 @@ const AdminDashboard = () => {
 		if (Object.keys(user).length === 0) {
 			navigate("/admin/login");
 		}
+		// eslint-disable-next-line
 	});
 
 	return (
@@ -64,11 +50,12 @@ const AdminDashboard = () => {
 		// 	</TotDiv>
 		<>
 			<Navbar user="Admin" />
-			<div style = {{marginTop: 100}}>
+			<div style={{ marginTop: 100 }}>
 				<h1>Hello {`${user.fullname}`}</h1>
 				<p>Welcome back to your Admin Account</p>
 				<p>
-					Your Admin ID is <b>{user._id}</b>
+					Track all the applications{" "}
+					<Link to="/admin/all_applications">here</Link> 
 				</p>
 			</div>
 		</>

@@ -8,6 +8,7 @@ import Axios from "axios";
 import "./appstatus.css";
 import Navbar from "./UI/Navbar";
 
+
 const ApplicationStatusAll = () => {
 	const navigate = useNavigate();
 
@@ -17,6 +18,7 @@ const ApplicationStatusAll = () => {
 	const [allGroundRequests, setAllGroundRequests] = useState({});
 	const [allEquipmentRequests, setAllEquipmentRequests] = useState({});
 	const [allPlayfieldRequests, setAllPlayfieldRequests] = useState({});
+	const [pendingRequests, setPendingRequests] = useState({});
 
 	// console.log("Ground Requests", allGroundRequests[0].useremail);
 
@@ -28,6 +30,9 @@ const ApplicationStatusAll = () => {
 		setAllGroundRequests(response.data.get_ground);
 		setAllEquipmentRequests(response.data.get_equipment);
 		setAllPlayfieldRequests(response.data.get_playfield);
+		const pending = await Axios.get("http://localhost:5000/requests/getallpendingrequests");
+		console.log(pending.data);
+		setPendingRequests(pending.data);
 	};
 
 	useEffect(() => {
@@ -36,8 +41,8 @@ const ApplicationStatusAll = () => {
 			navigate("/admin/login");
 		}
 
-		// eslint-disable-next-line
 		getAllRequests();
+		// eslint-disable-next-line
 	}, []);
 
 	const getColour = (status) => {
@@ -57,13 +62,13 @@ const ApplicationStatusAll = () => {
 			{
 				req_type: req_type,
 				change_status_to: status,
-				id : id 
+				id: id,
 			}
 		);
 
 		console.log(response);
 
-		window.location.reload();
+		navigate("/admin/dashboard");
 	};
 
 	const groundData = () => {
@@ -86,15 +91,25 @@ const ApplicationStatusAll = () => {
 						</td>
 						{allGroundRequests[i].status === "Pending" && (
 							<td>
+								
 								<button
 									onClick={() =>
-										Handler("get_ground", "Accepted", allGroundRequests[i]._id)
+										Handler(
+											"get_ground",
+											"Accepted",
+											allGroundRequests[i]._id
+										)
+									
 									}>
 									Accept
 								</button>
 								<button
 									onClick={() =>
-										Handler("get_ground", "Rejected", allGroundRequests[i]._id)
+										Handler(
+											"get_ground",
+											"Rejected",
+											allGroundRequests[i]._id
+										)
 									}>
 									Reject
 								</button>
@@ -126,7 +141,9 @@ const ApplicationStatusAll = () => {
 						<td>{allEquipmentRequests[i].addn_info}</td>
 						<td
 							style={{
-								color: getColour(allEquipmentRequests[i].status),
+								color: getColour(
+									allEquipmentRequests[i].status
+								),
 							}}>
 							{allEquipmentRequests[i].status}
 						</td>
@@ -134,13 +151,21 @@ const ApplicationStatusAll = () => {
 							<td>
 								<button
 									onClick={() =>
-										Handler("get_equipment", "Accepted", allEquipmentRequests[i]._id)
+										Handler(
+											"get_equipment",
+											"Accepted",
+											allEquipmentRequests[i]._id
+										)
 									}>
 									Accept
 								</button>
 								<button
 									onClick={() =>
-										Handler("get_equipment", "Rejected", allEquipmentRequests[i]._id)
+										Handler(
+											"get_equipment",
+											"Rejected",
+											allEquipmentRequests[i]._id
+										)
 									}>
 									Reject
 								</button>
@@ -172,7 +197,9 @@ const ApplicationStatusAll = () => {
 						<td>{allPlayfieldRequests[i].addn_info}</td>
 						<td
 							style={{
-								color: getColour(allPlayfieldRequests[i].status),
+								color: getColour(
+									allPlayfieldRequests[i].status
+								),
 							}}>
 							{allPlayfieldRequests[i].status}
 						</td>
@@ -180,13 +207,21 @@ const ApplicationStatusAll = () => {
 							<td>
 								<button
 									onClick={() =>
-										Handler("get_playfield", "Accepted", allPlayfieldRequests[i]._id)
+										Handler(
+											"get_playfield",
+											"Accepted",
+											allPlayfieldRequests[i]._id
+										)
 									}>
 									Accept
 								</button>
 								<button
 									onClick={() =>
-										Handler("get_playfield", "Rejected", allPlayfieldRequests[i]._id)
+										Handler(
+											"get_playfield",
+											"Rejected",
+											allPlayfieldRequests[i]._id
+										)
 									}>
 									Reject
 								</button>
@@ -204,7 +239,7 @@ const ApplicationStatusAll = () => {
 
 	return (
 		<div>
-			<Navbar user="Admin"/>
+			<Navbar user="Admin" />
 			<div>
 				<p>
 					Your Admin ID is <b>{user._id}</b>

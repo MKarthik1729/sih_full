@@ -33,3 +33,21 @@
 .forgot-password a{
     font-size: 11px;
 }
+
+.btn-home button {
+
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+}
+
+.btn-home button:hover {
+    background-color: #000;
+    color: yellow;
+}

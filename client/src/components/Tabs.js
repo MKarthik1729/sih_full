@@ -11,108 +11,13 @@ const Tabs = () => {
 	const [user, setUser] = useContext(store);
 
 	const navigate = useNavigate();
-	// const [req1, setReq1] = useState({
-	// 	groundArea: "",
-	// 	purpose: "",
-	// 	requirements: "",
-	// });
-
-	// const [req2, setReq2] = useState({
-	// 	sportsEquipment: "",
-	// 	numPeople: "",
-	// 	details: "",
-	// });
-
-	// const [req3, setReq3] = useState({
-	// 	additionalArea: "",
-	// 	agedPeople: "",
-	// 	additionalDetails: "",
-	// });
-
-	// const reqOneGroundAreaHandler = (e) => {
-	// 	setReq1((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			groundArea: e.target.value,
-	// 		};
-	// 	});
-	// };
-
-	// const reqOnePurposeHandler = (e) => {
-	// 	setReq1((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 		    purpose : e.target.value,
-	// 		};
-	// 	});
-	// };
-
-	// const reqOneRequirementsHandler = (e) => {
-	// 	setReq1((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			requirements: e.target.value,
-	// 		};
-	// 	});
-	// };
-
-	// const reqTwoSportsEquipmentHandler = (e) => {
-	// 	setReq2((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			sportsEquipment: e.target.value,
-	// 		}
-	// 	})
-	// }
-
-	// const reqTwoNumPeopleHandler = (e) => {
-	// 	setReq2((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			numPeople: e.target.value,
-	// 		}
-	// 	})
-	// }
-
-	// const reqTwoDetailsHandler = (e) => {
-	// 	setReq2((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			details: e.target.value,
-	// 		}
-	// 	})
-	// }
-
-	// const reqThreeAdditionalAreaHandler = (e) => {
-	// 	setReq3((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			additionalArea : e.target.value,
-	// 		}
-	// 	})
-	// }
-
-	// const reqThreeAgedPeopleHandler = (e) => {
-	// 	setReq3((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			agedPeople : e.target.value,
-	// 		}
-	// 	})
-	// }
-
-	// const reqThreeAdditionalDetailsHandler = (e) => {
-	// 	setReq3((prevReq) => {
-	// 		return {
-	// 			...prevReq,
-	// 			additionalDetails: e.target.value,
-	// 		}
-	// 	})
-	// }
 
 	const reqOneInputOne = useRef("");
 	const reqOneInputTwo = useRef("");
 	const reqOneInputThree = useRef("");
+	const reqOneInputFour_a = useRef("");
+	const reqOneInputFour_b = useRef("");
+	const reqOneInputFive = useRef("");
 
 	const reqTwoInputOne = useRef("");
 	const reqTwoInputTwo = useRef("");
@@ -130,9 +35,14 @@ const Tabs = () => {
 		const temp = {
 			request_type: "get_grounds",
 			useremail: user.useremail,
+			school_addr: user.address,
+			approx_price: reqOneInputThree.current.value,
 			ground_area: reqOneInputOne.current.value,
 			purpose: reqOneInputTwo.current.value,
-			addn_info: reqOneInputThree.current.value,
+			addn_info: reqOneInputFive.current.value,
+			status_of_ground: reqOneInputFour_a.current.selected
+				? "Construction"
+				: "Renovation",
 		};
 
 		console.log(temp);
@@ -142,9 +52,14 @@ const Tabs = () => {
 			{
 				request_type: "get_grounds",
 				useremail: user.useremail,
+				school_addr: user.address,
+				approx_price: reqOneInputThree.current.value,
 				ground_area: reqOneInputOne.current.value,
 				purpose: reqOneInputTwo.current.value,
-				addn_info: reqOneInputThree.current.value,
+				addn_info: reqOneInputFive.current.value,
+				status_of_ground: reqOneInputFour_a.current.selected
+					? true
+					: false,
 			}
 		);
 
@@ -224,7 +139,6 @@ const Tabs = () => {
 		}
 	};
 
-	
 	useEffect(() => {
 		if (Object.keys(user).length === 0) {
 			navigate("/user/login");
@@ -233,7 +147,7 @@ const Tabs = () => {
 	}, []);
 
 	// eslint-disable-next-line
-	
+
 	const [currentTab, setCurrentTab] = useState("1");
 
 	const SchoolDetails = (
@@ -346,11 +260,13 @@ const Tabs = () => {
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Required Ground Area (in sq mts.)
+										Required Ground Area / Available Ground
+										Area (in sq mts.)
 									</label>
 									<input
 										class="input--style-4"
-										type="text"
+										type="number"
+										min="100"
 										name="required-ground-area"
 										// onChange={reqOneGroundAreaHandler}
 										// value={groundArea}
@@ -377,8 +293,58 @@ const Tabs = () => {
 								</div>
 							</div>
 						</div>
+						<div class="row row-space">
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Approx price for the requirements (In
+										rupees ₹)
+									</label>
+									<input
+										class="input--style-4"
+										type="number"
+										name="purpose"
+										min="1000"
+										// onChange={reqOnePurposeHandler}
+										// value={purpose}
+										ref={reqOneInputThree}
+										required
+									/>
+								</div>
+							</div>
+							<div class="col-2">
+								<div class="input-group">
+									<label class="label">
+										Need of renovation / construction
+									</label>
+									<div class="p-t-10">
+										<label class="radio-container m-r-45">
+											Construction
+											<input
+												type="radio"
+												checked="checked"
+												name="ground_status"
+												value="Construction"
+												ref={reqOneInputFour_a}
+											/>
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-container">
+											Renovation
+											<input
+												type="radio"
+												name="ground_status"
+												value="Renovation"
+												ref={reqOneInputFour_b}
+											/>
+											<span class="checkmark"></span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
 
-						<div>
+						<div class="col-2">
 							<div class="input-group">
 								<label class="label">
 									Additional Requirements (Ploughing,
@@ -390,11 +356,12 @@ const Tabs = () => {
 									name="addn-info"
 									// onChange={reqOneRequirementsHandler}
 									// value={requirements}
-									ref={reqOneInputThree}
+									ref={reqOneInputFive}
 									required
 								/>
 							</div>
 						</div>
+						<div></div>
 						<br />
 						<hr />
 						<br />
@@ -497,6 +464,11 @@ const Tabs = () => {
 				<form autoComplete="off" onSubmit={submitHandler3}>
 					<div class="body">
 						<p>Request Details : -</p>
+						<p>
+							You can request dedicated track and field, road
+							running, race walking, cross country running,
+							mountain running, and trail running.
+						</p>
 
 						<div class="row row-space">
 							<div class="col-2">
@@ -518,12 +490,14 @@ const Tabs = () => {
 							<div class="col-2">
 								<div class="input-group">
 									<label class="label">
-										Intented age meant for which aged people
+										Intented age
 									</label>
 									<input
 										class="input--style-4"
-										type="text"
+										type="number"
 										name="purpose"
+										min = '10'
+										max = '80'
 										// onChange = {reqThreeAgedPeopleHandler}
 										// value={agedPeople}
 										ref={reqThreeInputTwo}

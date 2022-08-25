@@ -1,22 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import Card from "react-bootstrap/Card";
 
-import {
-	AiOutlineSetting,
-	AiOutlineLogout,
-	AiOutlinePlusCircle,
-} from "react-icons/ai";
-import {
-	BottomPart,
-	MainUser,
-	RightBottom,
-	SideBarPart,
-	TotDiv,
-	WhitePara,
-} from "./interface";
 
 import { store } from "../App";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Axios from "axios";
 import Navbar from "./UI/Navbar";
@@ -39,26 +26,41 @@ const ApplicationStatus = () => {
 
 	const [details, setDetails] = useState({});
 
-	console.log(details.results);
-	console.log(typeof details);
+	// console.log(details.results);
+	// console.log(typeof details);
 
 	const submitHandler = async (event) => {
 		event.preventDefault();
-		console.log(tokenRef.current.value);
+			
 
-		if (tokenRef.current.value.length !== 0) {
+		if (tokenRef.current.value.length === 24) {
 			const response = await Axios.post(
 				"http://localhost:5000/requests/search_for_request",
 				{
 					token: tokenRef.current.value,
+					searching_useremail : user.useremail	
 				}
 			);
 
 			const data = response.data;
-			console.log(data);
+			console.log(data);	
 			setDetails(data);
+		}else{
+			alert("Please enter a 24 digit code to your mail")
 		}
-	};
+	};	
+
+	const getTypeOfRequest = (req_type) => {
+		if(req_type === "get_grounds"){
+			return "Sports Ground"
+		}
+		else if(req_type === 'get_equipment'){
+			return "Sports Equipment"
+		}
+		else if(req_type === 'get_playfield'){
+			return "Playfield"
+		}
+	}
 
 	const getColour = (status) => {
 		if (status === "Accepted") {
@@ -96,7 +98,7 @@ const ApplicationStatus = () => {
 				<Card style={{ width: "50%", margin: 20, padding: 30 }}>
 					<Card.Body>
 						<Card.Title>
-							Request for <b>{details.request_type}</b>
+							Request for <b>{getTypeOfRequest(details.request_type)}</b>
 						</Card.Title>
 						<Card.Subtitle className="mb-2 text-muted">
 							From <b>{details.result.useremail}</b>
@@ -149,7 +151,7 @@ const ApplicationStatus = () => {
 				<Card style={{ width: "50%", margin: 20, padding: 30 }}>
 					<Card.Body>
 						<Card.Title>
-							Request for <b>{details.request_type}</b>
+							Request for <b>{getTypeOfRequest(details.request_type)}</b>
 						</Card.Title>
 						<Card.Subtitle className="mb-2 text-muted">
 							From <b>{details.result.useremail}</b>
@@ -203,7 +205,7 @@ const ApplicationStatus = () => {
 				<Card style={{ width: "50%", margin: 20, padding: 30 }}>
 					<Card.Body>
 						<Card.Title>
-							Request for <b>{details.request_type}</b>
+							Request for <b>{getTypeOfRequest(details.request_type)}</b>
 						</Card.Title>
 						<Card.Subtitle className="mb-2 text-muted">
 							From <b>{details.result.useremail}</b>
@@ -213,9 +215,7 @@ const ApplicationStatus = () => {
 								The purpose behind playarea / relaxation area
 								&nbsp; : &nbsp;{" "}
 							</div>
-							<div>
-								<b>{details.result.required_for}</b>
-							</div>
+							<b>{details.result.required_for}</b>
 							<br />
 							Intended age and number of people : &nbsp; : &nbsp;{" "}
 							<b>{details.result.intended_age_and_reason}</b>
@@ -317,6 +317,7 @@ const ApplicationStatus = () => {
 						aria-describedby="basic-addon2"
 						style={{ width: "50%" }}
 						ref={tokenRef}
+						minLength='12'
 					/>
 					<br></br>
 					<div class="input-group-append">
@@ -330,8 +331,9 @@ const ApplicationStatus = () => {
 				</form>
 			</div>
 			<br></br>
+			{details.error && <p>No requests found to this email</p>}
 			{details.result === undefined ? (
-				<p>Enter the ID and search for results</p>
+				<p>Enter the valid email ID and search for results</p>
 			) : (
 				<div
 					style={{

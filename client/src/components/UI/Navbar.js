@@ -7,7 +7,6 @@ import {
 	NavbarInnerContainer,
 	NavbarLinkContainer,
 	NavbarLink,
-	Logo,
 	OpenLinksButton,
 	NavbarLinkExtended,
 } from "./NavbarStyle";
@@ -25,7 +24,7 @@ function Navbar(props) {
 							<NavbarLink to="/user/request"> New Application</NavbarLink>
 						)}
 						{props.user === 'User' && (
-							<NavbarLink to="/admin/show_all_applications"> Show All Applications</NavbarLink>
+							<NavbarLink to="/user/all_applications"> Show All Applications</NavbarLink>
 						)}
 						{props.user === "Admin" ? (
 							<NavbarLink to="/admin/all_applications	"> Show All Applications</NavbarLink>

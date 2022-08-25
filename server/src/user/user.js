@@ -27,7 +27,7 @@ Router.post("/login", async (req, res) => {
 	// NewAdmin.create(req.body)
 
 	console.log(req.body);
-	console.log(req.body);
+	// console.log(req.body);
 	// NewAdmin.create(req.body)
 	try {
 		const result = await User.findOne({

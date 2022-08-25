@@ -66,6 +66,17 @@ function Login(props) {
 					</b>{" "}
 					details here to log-in.
 				</p>
+				<div className="btn-home">
+					{props.value === "User" ? (
+						<Link to="/admin/login">
+							<button>Enter as Admin</button>
+						</Link>
+					) : (
+						<Link to="/user/login">
+							<button>Enter as User</button>
+						</Link>
+					)}
+				</div>
 				<div className="login-form">
 					<form onSubmit={submitHandler}>
 						<h2 className="text-center">Log in</h2>
