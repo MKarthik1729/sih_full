@@ -18,6 +18,7 @@
     "mongoose": "^6.5.1",
     "node-mailer": "^0.1.1",
     "nodemailer": "^6.7.8",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "swearjar": "^0.2.0"
   }
 }

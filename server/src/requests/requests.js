@@ -2,12 +2,13 @@ const express = require("express");
 
 const Router = express.Router();
 
+const User = require("../Schema/UserSchema");
 const get_equipment = require("../Schema/Requests/getEquipmentSchema");
 const get_ground = require("../Schema/Requests/getGroundsSchema");
 const get_playfield = require("../Schema/Requests/getPlayfieldSchema");
 
 const nodemailer = require("nodemailer");
-const { request } = require("express");
+var swearjar = require("swearjar");
 
 let transporter = nodemailer.createTransport({
 	service: "gmail",
@@ -42,11 +43,43 @@ Router.post("/newrequest", async (req, res) => {
 				console.log("Token is: " + token[0]._id.toString());
 				res.send({ token: token });
 				return;
-				break;
 			}
 		}
 
 		console.log("Creating new request");
+
+		if (
+			swearjar.profane(req.body.purpose) ||
+			swearjar.profane(req.body.addn_info)
+		) {
+			console.log("Profanity found, terminating account.");
+			await User.findOneAndDelete({ useremail: req.body.useremail });
+
+			let responseText = `
+			<html><head><b>
+			Account Termination for violation of guidelines
+			</b>
+			</head>
+			<body>
+			<br>
+			It has been observed that you have used unparlimentary language, for which we are now <span style = "color : red" ><b>Terminating</b></span> your account. You can apply in few days. 
+			<br><br>
+			Thank you,
+			Khelo India. <br>
+			</body>
+			</html>`;
+
+			let mailOptions = {
+				from: "khelindiasih@gmail.com",
+				to: req.body.useremail,
+				subject: "Regarding termination of account	",
+				html: responseText,
+			};
+
+			sendEmail(mailOptions);
+			return;
+		}
+
 		const r = new get_ground({
 			request_type: "get_grounds",
 			useremail: req.body.useremail,
@@ -168,6 +201,38 @@ Router.post("/newrequest", async (req, res) => {
 			}
 		}
 
+		if (
+			swearjar.profane(req.body.name_of_equipment) ||
+			swearjar.profane(req.body.addn_info)
+		) {
+			console.log("Profanity found, terminating account.");
+			await User.findOneAndDelete({ useremail: req.body.useremail });
+
+			let responseText = `
+			<html><head><b>
+			Account Termination for violation of guidelines
+			</b>
+			</head>
+			<body>
+			<br>
+			It has been observed that you have used unparlimentary language, for which we are now <span style = "color : red" ><b>Terminating</b></span> your account. You can apply in few days. 
+			<br><br>
+			Thank you,
+			Khelo India. <br>
+			</body>
+			</html>`;
+
+			let mailOptions = {
+				from: "khelindiasih@gmail.com",
+				to: req.body.useremail,
+				subject: "Regarding termination of account	",
+				html: responseText,
+			};
+
+			sendEmail(mailOptions);
+			return;
+		}
+
 		console.log("Creating new request");
 		const r = new get_equipment({
 			request_type: "get_equipment",
@@ -286,6 +351,38 @@ Router.post("/newrequest", async (req, res) => {
 				res.send({ token: token });
 				return;
 			}
+		}
+
+		if (
+			swearjar.profane(req.body.required_for) ||
+			swearjar.profane(req.body.addn_info)
+		) {
+			console.log("Profanity found, terminating account.");
+			await User.findOneAndDelete({ useremail: req.body.useremail });
+
+			let responseText = `
+			<html><head><b>
+			Account Termination for violation of guidelines
+			</b>
+			</head>
+			<body>
+			<br>
+			It has been observed that you have used unparlimentary language, for which we are now <span style = "color : red" ><b>Terminating</b></span> your account. You can apply in few days. 
+			<br><br>
+			Thank you,
+			Khelo India. <br>
+			</body>
+			</html>`;
+
+			let mailOptions = {
+				from: "khelindiasih@gmail.com",
+				to: req.body.useremail,
+				subject: "Regarding termination of account	",
+				html: responseText,
+			};
+
+			sendEmail(mailOptions);
+			return;
 		}
 
 		console.log("Creating new request");
