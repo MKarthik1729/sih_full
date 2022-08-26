@@ -85,8 +85,17 @@ const ApplicationStatus = () => {
 							From <b>{details.result.useremail}</b>
 						</Card.Subtitle>
 						<Card.Text>
+							School Adrress &nbsp; : &nbsp;{" "}
+							<b>{details.result.school_addr}</b>
+							<br />
 							Ground Area and Shape &nbsp; : &nbsp;{" "}
 							<b>{details.result.ground_area}</b>
+							<br />
+							Status of Ground &nbsp; : &nbsp;{" "}
+							<b>{(details.result.status_of_ground)?"Renovation":"Construction"}</b>
+							<br />
+							Estimated Price &nbsp; : &nbsp;{" "}
+							<b>{details.result.approx_price}</b>
 							<br />
 							Purpose for Ground &nbsp; : &nbsp;{" "}
 							<b>{details.result.purpose}</b>
@@ -100,6 +109,14 @@ const ApplicationStatus = () => {
 									color: getColour(details.result.status),
 								}}>
 								{details.result.status}
+							</span>
+							<br />
+							Remarks &nbsp; : &nbsp;
+							<span
+								style={{
+									color: getColour(details.result.status),
+								}}>
+								{details.result.remarks}
 							</span>
 						</Card.Text>
 					</Card.Body>
@@ -118,10 +135,10 @@ const ApplicationStatus = () => {
 						</Card.Subtitle>
 						<Card.Text>
 							Name of equipment needed &nbsp; : &nbsp;{" "}
-							<b>{details.result.name}</b>
+							<b>{details.result.name_of_equipment}</b>
 							<br />
 							Intended number of people : &nbsp; : &nbsp;{" "}
-							<b>{details.result.number_of_items_and_reason}</b>
+							<b>{details.result.number_of_items}</b>
 							<br />
 							Additional Information Provided &nbsp; : &nbsp;{" "}
 							<b>{details.result.addn_info}</b>
@@ -132,6 +149,14 @@ const ApplicationStatus = () => {
 									color: getColour(details.result.status),
 								}}>
 								{details.result.status}
+							</span>
+							<br />
+							Remarks &nbsp; : &nbsp;
+							<span
+								style={{
+									color: getColour(details.result.status),
+								}}>
+								{details.result.remarks}
 							</span>
 						</Card.Text>
 					</Card.Body>
@@ -159,7 +184,7 @@ const ApplicationStatus = () => {
 							<b>{details.result.intended_age}</b>
 							<br />
 							Approximate Usage: &nbsp; : &nbsp;{" "}
-							<b>{details.result.intended_age} per week</b>
+							<b>{details.result.approx_usage_per_week} per week</b>
 							<br />
 							Approximate Amount Requested : &nbsp; : &nbsp;{" "}
 							<b>{details.result.approx_price}</b>
@@ -176,7 +201,7 @@ const ApplicationStatus = () => {
 								
 							</span>
 							<br />
-							Status &nbsp; : &nbsp;
+							Remarks &nbsp; : &nbsp;
 							<span
 								style={{
 									color: getColour(details.result.status),
