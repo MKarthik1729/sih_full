@@ -74,12 +74,12 @@ Router.post("/signup", async (req, res) => {
 		const token = await User.findOne({ useremail: req.body.useremail });
 		console.log(token);
 
-		let responseText = `We are happy to have you onboard. We have created a new account successfully. Welcome to "Khel India". A place where government meets people. Your application has been successfully created and the User ID generated is : ${token._id.toString()}`;
+		let responseText = `We are happy to have you onboard. We have created a new account successfully. Welcome to "Khelo India". A place where government meets people. Your application has been successfully created and the User ID generated is : ${token._id.toString()}`;
 
 		let mailOptions = {
 			from: "khelindiasih@gmail.com",
 			to: req.body.useremail,
-			subject: "Khel India welcomes you",
+			subject: "Khelo India welcomes you",
 			text: responseText,
 		};
 

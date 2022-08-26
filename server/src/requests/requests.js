@@ -171,11 +171,11 @@ Router.post("/newrequest", async (req, res) => {
 		console.log("Creating new request");
 		const r = new get_equipment({
 			request_type: "get_equipment",
-				useremail: req.body.useremail,
-				name_of_equipment: req.body.name_of_equipment,
-				number_of_items: req.body.number_of_items,
-				approx_price : req.body.approx_price,
-				addn_info: req.body.addn_info,
+			useremail: req.body.useremail,
+			name_of_equipment: req.body.name_of_equipment,
+			number_of_items: req.body.number_of_items,
+			approx_price: req.body.approx_price,
+			addn_info: req.body.addn_info,
 		});
 
 		await r.save();
@@ -276,7 +276,6 @@ Router.post("/newrequest", async (req, res) => {
 		console.log(token[0]._id.toString());
 		res.send({ token: token });
 	} else if (req.body.request_type === "get_playfield") {
-
 		token = await get_playfield.find({ useremail: req.body.useremail });
 		console.log(token);
 
@@ -313,7 +312,7 @@ Router.post("/newrequest", async (req, res) => {
 			</head>
 			<body>	
 			We have received your request for 'Get a playfield'. 
-			Please use the following token number for futher application Status: ${token[0]._id.toString()} <br><br>Thank you.<br>>Khel India. 
+			Please use the following token number for futher application Status: ${token[0]._id.toString()} <br><br>Thank you.<br>>Khelo India. 
 			</body>
 			</html>`;
 
@@ -349,7 +348,7 @@ Router.post("/newrequest", async (req, res) => {
 				We have received your request for 'Get a playfield'. 
 				We are sorry to say that your application with following token number: <span style = "color : red" ><b>${token[0]._id.toString()}</span></b> has been rejected due to higher number of people. 
 				We are currently not accepting frequency > 500 per week.
-				<br> Please apply in few more days <br><br><b> Thank you <b><br> Khelo India.
+				<br> Please apply in few more days <br><br><b> Thank you </b><br> Khelo India.
 				</body>
 				</html>`;
 
@@ -403,24 +402,37 @@ Router.post("/newrequest", async (req, res) => {
 	}
 });
 
-Router.get("/getallpendingrequests", (req, res) => {
-	const data = [];
-});
-
 Router.post("/change_status", async (req, res) => {
 	const type = req.body.req_type;
 	console.log(req.body);
 
 	if (type === "get_ground") {
-		await get_ground.updateOne(
-			{ _id: req.body.id },
-			{ $set: { status: req.body.change_status_to } }
-		);
+		if (req.body.change_status_to === "Accepted") {
+			await get_ground.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Accepted by Sports Executive",
+					},
+				}
+			);
+		} else if (req.body.change_status_to === "Rejected") {
+			await get_ground.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Manually Rejected by Sports Executive",
+					},
+				}
+			);
+		}
 
 		let responseText = "";
 		if (req.body.change_status_to === "Accepted") {
 			responseText = `
-			We are pleased to announce that your application for "Getting a ground" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.
+			We are pleased to announce that your application for "Getting a ground" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khelo India.\n\nThank you.
 			`;
 		} else {
 			responseText = `We are sorry to say that your application for "Getting a ground" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`;
@@ -432,7 +444,7 @@ Router.post("/change_status", async (req, res) => {
 		let mailOptions = {
 			from: "khelindiasih@gmail.com",
 			to: user.useremail,
-			subject: "Progress in your request for Khel India",
+			subject: "Progress in your request for Khelo India",
 			text: responseText,
 		};
 
@@ -442,16 +454,34 @@ Router.post("/change_status", async (req, res) => {
 	}
 
 	if (type === "get_equipment") {
+		if (req.body.change_status_to === "Accepted") {
+			await get_equipment.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Accepted by Sports Executive",
+					},
+				}
+			);
+		} else if (req.body.change_status_to === "Rejected") {
+			await get_equipment.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Manually Rejected by Sports Executive",
+					},
+				}
+			);
+		}
+
 		let responseText = "";
 		if (req.body.change_status_to === "Accepted") {
-			responseText = `We are pleased to announce that your application for "Getting equipment" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.`;
+			responseText = `We are pleased to announce that your application for "Getting equipment" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khelo India.\n\nThank you.`;
 		} else {
 			responseText = `We are sorry to say that your application for "Getting equipment" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`;
 		}
-		await get_equipment.updateOne(
-			{ _id: req.body.id },
-			{ $set: { status: req.body.change_status_to } }
-		);
 
 		const user = await get_equipment.findOne({ _id: req.body.id });
 		console.log(user.useremail);
@@ -459,7 +489,7 @@ Router.post("/change_status", async (req, res) => {
 		let mailOptions = {
 			from: "khelindiasih@gmail.com",
 			to: user.useremail,
-			subject: "Progress in your request for Khel India",
+			subject: "Progress in your request for Khelo India",
 			text: responseText,
 		};
 
@@ -469,16 +499,34 @@ Router.post("/change_status", async (req, res) => {
 	}
 
 	if (type === "get_playfield") {
+		if (req.body.change_status_to === "Accepted") {
+			await get_playfield.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Accepted by Sports Executive",
+					},
+				}
+			);
+		} else if (req.body.change_status_to === "Rejected") {
+			await get_playfield.updateOne(
+				{ _id: req.body.id },
+				{
+					$set: {
+						status: req.body.change_status_to,
+						remarks: "Manually Rejected by Sports Executive",
+					},
+				}
+			);
+		}
+
 		let responseText = "";
 		if (req.body.change_status_to === "Accepted") {
-			responseText = `We are pleased to announce that your application for "Getting a playfield" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khel India.\n\nThank you.`;
+			responseText = `We are pleased to announce that your application for "Getting a playfield" with request id : ${req.body.id} has been appproved. \n\nOur co-ordinator will come into contact with you very soon. \n\n\nOnce again, congratulations for getting your application approved. Welcome to Khelo India.\n\nThank you.`;
 		} else {
 			responseText = `We are sorry to say that your application for "Getting a playfield" with request id : ${req.body.id} has been rejected. \n\nYou can re-apply in 14 working days again. Thank you.`;
 		}
-		await get_playfield.updateOne(
-			{ _id: req.body.id },
-			{ $set: { status: req.body.change_status_to } }
-		);
 
 		const user = await get_playfield.findOne({ _id: req.body.id });
 		console.log(user.useremail);
@@ -486,7 +534,7 @@ Router.post("/change_status", async (req, res) => {
 		let mailOptions = {
 			from: "khelindiasih@gmail.com",
 			to: user.useremail,
-			subject: "Progress in your request for Khel India",
+			subject: "Progress in your request for Khelo India",
 			text: responseText,
 		};
 
@@ -554,6 +602,6 @@ Router.post("/search_for_request", async (req, res) => {
 	res.json({ error: "error" });
 
 	console.log("OOPS! Result not found");
-});	
+});
 
 module.exports = Router;

@@ -563,7 +563,8 @@ const Tabs = () => {
 										class="input--style-4"
 										type="number"
 										name="purpose"
-										min="1000"
+										min="10"
+										max="80"
 										// onChange={reqOnePurposeHandler}
 										// value={purpose}
 										ref={reqThreeInputFour}

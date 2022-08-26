@@ -64,7 +64,7 @@ const Signup = (props) => {
 					<b>
 						<span style={{ fontSize: 20 }}>{props.value}</span>
 					</b>{" "}
-					details here to register for Khel India.
+					details here to register for Khelo India.
 				</p>
 				<div className="login-form">
 					<form onSubmit={submitHandler}>

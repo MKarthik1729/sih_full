@@ -8,7 +8,6 @@ import Axios from "axios";
 import "./appstatus.css";
 import Navbar from "./UI/Navbar";
 
-
 const ApplicationStatusAll = () => {
 	const navigate = useNavigate();
 
@@ -18,7 +17,6 @@ const ApplicationStatusAll = () => {
 	const [allGroundRequests, setAllGroundRequests] = useState({});
 	const [allEquipmentRequests, setAllEquipmentRequests] = useState({});
 	const [allPlayfieldRequests, setAllPlayfieldRequests] = useState({});
-	const [pendingRequests, setPendingRequests] = useState({});
 
 	// console.log("Ground Requests", allGroundRequests[0].useremail);
 
@@ -26,13 +24,10 @@ const ApplicationStatusAll = () => {
 		const response = await Axios.get(
 			"http://localhost:5000/requests/getallrequests"
 		);
-		console.log(response.data);
+		// console.log(response.data);
 		setAllGroundRequests(response.data.get_ground);
 		setAllEquipmentRequests(response.data.get_equipment);
 		setAllPlayfieldRequests(response.data.get_playfield);
-		const pending = await Axios.get("http://localhost:5000/requests/getallpendingrequests");
-		console.log(pending.data);
-		setPendingRequests(pending.data);
 	};
 
 	useEffect(() => {
@@ -42,14 +37,17 @@ const ApplicationStatusAll = () => {
 		}
 
 		getAllRequests();
+
 		// eslint-disable-next-line
 	}, []);
+
+	// console.log(pendingRequests);
 
 	const getColour = (status) => {
 		if (status === "Accepted") {
 			return "#168205";
 		} else if (status === "Pending") {
-			console.log("yellow");
+			// console.log("yellow");
 			return "#8c8606";
 		} else {
 			return "red";
@@ -74,13 +72,20 @@ const ApplicationStatusAll = () => {
 	const groundData = () => {
 		const data = [];
 		for (let i in allGroundRequests) {
-			console.log(allGroundRequests[i]);
+			// console.log(allGroundRequests[i]);
 			// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
 			const temp = (
 				<>
 					<tr>
 						<td>{allGroundRequests[i].useremail}</td>
+						<td>{allGroundRequests[i].school_addr}</td>
 						<td>{allGroundRequests[i].ground_area}</td>
+						<td>
+							{allGroundRequests[i].status_of_ground === true
+								? "Renovation"
+								: "Construction"}
+						</td>
+						<td>{allGroundRequests[i].approx_price}</td>
 						<td>{allGroundRequests[i].purpose}</td>
 						<td>{allGroundRequests[i].addn_info}</td>
 						<td
@@ -91,7 +96,6 @@ const ApplicationStatusAll = () => {
 						</td>
 						{allGroundRequests[i].status === "Pending" && (
 							<td>
-								
 								<button
 									onClick={() =>
 										Handler(
@@ -99,7 +103,6 @@ const ApplicationStatusAll = () => {
 											"Accepted",
 											allGroundRequests[i]._id
 										)
-									
 									}>
 									Accept
 								</button>
@@ -128,15 +131,15 @@ const ApplicationStatusAll = () => {
 	const equipmentData = () => {
 		const data = [];
 		for (let i in allEquipmentRequests) {
-			console.log(allEquipmentRequests[i]);
+			// console.log(allEquipmentRequests[i]);
 			// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
 			const temp = (
 				<>
 					<tr>
 						<td>{allEquipmentRequests[i].useremail}</td>
-						<td>{allEquipmentRequests[i].name}</td>
+						<td>{allEquipmentRequests[i].name_of_equipment}</td>
 						<td>
-							{allEquipmentRequests[i].number_of_items_and_reason}
+							{allEquipmentRequests[i].number_of_items}
 						</td>
 						<td>{allEquipmentRequests[i].addn_info}</td>
 						<td
@@ -184,7 +187,7 @@ const ApplicationStatusAll = () => {
 	const playfieldData = () => {
 		const data = [];
 		for (let i in allPlayfieldRequests) {
-			console.log(allPlayfieldRequests[i]);
+			// console.log(allPlayfieldRequests[i]);
 			// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
 			const temp = (
 				<>
@@ -237,6 +240,184 @@ const ApplicationStatusAll = () => {
 		return data;
 	};
 
+	const pendingGroundRequests = () => {
+		let data = [];
+		let groundRequests = allGroundRequests;
+		// console.log(groundRequests);
+		for (let i in groundRequests) {
+			// console.log(groundRequests[i]);
+			if (groundRequests[i].status === "Pending") {
+				const temp = (
+					<>
+						<tr>
+							<td>{groundRequests[i].useremail}</td>
+							<td>{groundRequests[i].school_addr}</td>
+							<td>{groundRequests[i].ground_area}</td>
+							<td>
+								{groundRequests[i].status_of_ground === true
+									? "Renovation"
+									: "Construction"}
+							</td>
+							<td>{groundRequests[i].approx_price}</td>
+							<td>{groundRequests[i].purpose}</td>
+							<td>{groundRequests[i].addn_info}</td>
+							<td
+								style={{
+									color: getColour(groundRequests[i].status),
+								}}>
+								{groundRequests[i].status}
+							</td>
+							{groundRequests[i].status === "Pending" && (
+								<td>
+									<button
+										onClick={() =>
+											Handler(
+												"get_ground",
+												"Accepted",
+												groundRequests[i]._id
+											)
+										}>
+										Accept
+									</button>
+									<button
+										onClick={() =>
+											Handler(
+												"get_ground",
+												"Rejected",
+												groundRequests[i]._id
+											)
+										}>
+										Reject
+									</button>
+								</td>
+							)}
+						</tr>
+					</>
+				);
+				data.push(temp);
+			}
+			// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
+		}
+		return data;
+	};
+
+	const pendingEquipmentRequests = () => {
+		let data = [];
+		let equipmentRequests = allEquipmentRequests;
+		console.log(equipmentRequests);
+		for (let i in equipmentRequests) {
+			// console.log(equipmentRequests[i]);
+			if (equipmentRequests[i].status === "Pending") {
+				const temp = (
+					<>
+						<tr>
+							<td>{equipmentRequests[i].useremail}</td>
+							<td>{equipmentRequests[i].name_of_equipment}</td>
+							<td>{equipmentRequests[i].number_of_items}</td>
+							<td>{equipmentRequests[i].addn_info}</td>
+							<td
+								style={{
+									color: getColour(
+										equipmentRequests[i].status
+									),
+								}}>
+								{equipmentRequests[i].status}
+							</td>
+							{equipmentRequests[i].status === "Pending" && (
+								<td>
+									<button
+										onClick={() =>
+											Handler(
+												"get_equipment",
+												"Accepted",
+												equipmentRequests[i]._id
+											)
+										}>
+										Accept
+									</button>
+									<button
+										onClick={() =>
+											Handler(
+												"get_equipment",
+												"Rejected",
+												equipmentRequests[i]._id
+											)
+										}>
+										Reject
+									</button>
+								</td>
+							)}
+						</tr>
+					</>
+				);
+				data.push(temp);
+			}
+			// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
+		}
+		return data;
+	};
+
+	const pendingPlayfieldRequests = () => {
+		const data = [];
+		for (let i in allPlayfieldRequests) {
+			// console.log(allPlayfieldRequests[i]);
+			if (allPlayfieldRequests[i].status === "Pending") {
+				// const temp = <p>Registered Mail : {allGroundRequests[i].useremail}</p>;
+				const temp = (
+					<>
+						<tr>
+							<td>{allPlayfieldRequests[i].useremail}</td>
+							<td>{allPlayfieldRequests[i].required_for}</td>
+							<td>
+								{
+									allPlayfieldRequests[i]
+										.intended_age
+								}
+							</td>
+							<td>{allPlayfieldRequests[i].addn_info}</td>
+							<td
+								style={{
+									color: getColour(
+										allPlayfieldRequests[i].status
+									),
+								}}>
+								{allPlayfieldRequests[i].status}
+							</td>
+							{allPlayfieldRequests[i].status === "Pending" && (
+								<td>
+									<button
+										onClick={() =>
+											Handler(
+												"get_playfield",
+												"Accepted",
+												allPlayfieldRequests[i]._id
+											)
+										}>
+										Accept
+									</button>
+									<button
+										onClick={() =>
+											Handler(
+												"get_playfield",
+												"Rejected",
+												allPlayfieldRequests[i]._id
+											)
+										}>
+										Reject
+									</button>
+								</td>
+							)}
+						</tr>
+					</>
+				);
+				data.push(temp);
+			}
+		}
+		// console.log(allGroundRequests);
+
+		return data;
+	};
+
 	return (
 		<div>
 			<Navbar user="Admin" />
@@ -244,12 +425,62 @@ const ApplicationStatusAll = () => {
 				<p>
 					Your Admin ID is <b>{user._id}</b>
 				</p>
-				<h2>Request for Grounds : </h2>
+				<h2>All Pending Requests are : </h2>
+				<h5>Pending Requests for Grounds : </h5>
 				<div class="card-holder">
 					<table>
 						<tr>
 							<th>Registered Mail</th>
+							<th>Registered School / College</th>
 							<th>Estimate about Ground Area</th>
+							<th>Status of Ground</th>
+							<th>Approx. Price</th>
+							<th>Purpose for ground</th>
+							<th>Additional Information</th>
+							<th>Status</th>
+							<th>Change Status</th>
+						</tr>
+						{pendingGroundRequests()}
+					</table>
+				</div>
+				<h5>Pending Requests for Equipment : </h5>
+				<div class="card-holder">
+					<table>
+						<tr>
+							<th>Registered Mail</th>
+							<th>Name of equipment needed</th>
+							<th>Number of items and reason</th>
+							<th>Additional Information</th>
+							<th>Status</th>
+							<th>Change Status</th>
+						</tr>
+						{pendingEquipmentRequests()}
+					</table>
+				</div>
+				<h5>Pending Requests for Playfield : </h5>
+				<div class="card-holder">
+					<table>
+						<tr>
+							<th>Registered Mail</th>
+							<th>Purpose of playfield</th>
+							<th>Intended age</th>
+							<th>Additional Information</th>
+							<th>Status</th>
+							<th>Change Status</th>
+						</tr>
+						{pendingPlayfieldRequests()}
+					</table>
+				</div>
+
+				<h2>All Requests for Grounds : </h2>
+				<div class="card-holder">
+					<table>
+						<tr>
+							<th>Registered Mail</th>
+							<th>Registered School / College</th>
+							<th>Estimate about Ground Area</th>
+							<th>Status of Ground</th>
+							<th>Approx. Price</th>
 							<th>Purpose for ground</th>
 							<th>Additional Information</th>
 							<th>Status</th>
@@ -266,7 +497,7 @@ const ApplicationStatusAll = () => {
 						<tr>
 							<th>Registered Mail</th>
 							<th>Name of equipment needed</th>
-							<th>Number of items and reason</th>
+							<th>Number of items</th>
 							<th>Additional Information</th>
 							<th>Status</th>
 							<th>Change Status</th>
@@ -297,6 +528,6 @@ const ApplicationStatusAll = () => {
 			</div>
 		</div>
 	);
-};
+};	
 
 export default ApplicationStatusAll;
